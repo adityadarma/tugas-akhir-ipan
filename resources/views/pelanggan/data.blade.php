@@ -4,79 +4,88 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Data Pelanggan</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pelanggan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Pelanggan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <div class="content mt-3">
+        <div class="card">
+          <div class="card-body pt-4">
             <div class="animated fadeIn">
-                    <div class="pull-right">
-                            <a href="{{ url('pelanggan/tambah')}}" class="btn btn-success btn-sm">
-                                <i class="fa fa-plus"></i> Tambah
-                            </a>
-                        </div>
-        <div class="card-body table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>ID Pelanggan</th>
-                <th>Nama Pelanggan</th>
-                <th>Alamat Pelanggan</th>
-                <th>Email Pelanggan</th>
-                <th>No Telp</th>
-                <th colspan="2">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-                    @foreach ($pelanggan as $item)
-                    <tr>
-                    <td><a href="{{ url('pesanan/detail/') }}/{{ $item->ID_PELANGGAN }}">{{ $item->ID_PELANGGAN }}</a></td>
-                        <td>{{ $item->NAMA_PELANGGAN }}</td>
-                        <td>{{ $item->ALAMAT_PELANGGAN }}</td>
-                        <td>{{ $item->EMAIL_PELANGGAN }}</td>
-                        <td>{{ $item->NO_TELP }}</td>
-
-                        <td class="text-center">
-                        <a href="{{ url('pelanggan/ubah/'.$item->ID_PELANGGAN)}}" class="btn btn-warning btn-sm">
-                                <i class="fa fa-edit"></i> Ubah
-                            </a>
-                        </td>
-                        <td>
-                        <form action="{{ url('pelanggan/'.$item->ID_PELANGGAN)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                            @method('delete')
-                            @csrf
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i> Hapus
-
-                            </button>
-                        </form>
-                        </td>
-                    </tr>
-
-                    @endforeach
-                </tbody>
+              @if (session('status'))
+              <div class="alert alert-success">
+                  {{ session('status') }}
+              </div>
+              @endif
             </div>
-        </table>
-            </div>
-            </div>
+              <div class="row">
+                  <div class="col-md-12">
+                      <a href="{{ route('pelanggan.tambah')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+                  </div>
+              </div>
+              <div class="table-responsive mt-3">
+                  <table id="table" class="table table-bordered">
+                      <thead>
+                          <tr>
+                              <th>No</th>
+                              <th>Kode</th>
+                              <th>Nama</th>
+                              <th>Alamat</th>
+                              <th>Email</th>
+                              <th>No Telp</th>
+                              <th width="130px">Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach ($pelanggan as $key => $item)
+                          <tr>
+                              <td>{{ $key+1 }}</td>
+                              <td><a href="{{ route('pesanan.detail', ['id' => $item->id]) }}">{{ $item->kode }}</a></td>
+                              <td>{{ $item->nama }}</td>
+                              <td>{{ $item->alamat }}</td>
+                              <td>{{ $item->email }}</td>
+                              <td>{{ $item->no_telp }}</td>
+
+                              <td class="text-center">
+                                  <a href="{{ route('pelanggan.edit',['id' => $item->id]) }}"
+                                      class="btn btn-warning btn-sm">
+                                      <i class="fa fa-edit"></i> Ubah
+                                  </a> 
+                                  <form action="{{ route('pelanggan.delete',['id' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
+                                      @method('delete')
+                                      @csrf
+                                      <button class="btn btn-danger btn-sm">
+                                          <i class="fa fa-trash"></i> Hapus
+                                      </button>
+                                  </form>
+                              </td>
+                          </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
     </section>
     <!-- /.content -->
 </div>
 @endsection
 
+@section('script')
+<script>
+    $('#table').DataTable();
 
+</script>
+@endsection
