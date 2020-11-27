@@ -4,77 +4,86 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Data Vendor</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Vendor</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Vendor</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <div class="content mt-3">
-            <div class="animated fadeIn">
-                    <div class="pull-right">
-                            <a href="{{ url('vendor/tambah')}}" class="btn btn-success btn-sm">
-                                <i class="fa fa-plus"></i> Tambah
-                            </a>
-
+        <div class="content">
+            <div class="card">
+                <div class="card-body pt-4">
+                    <div class="animated fadeIn">
+                        @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
                         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>ID Vendor</th>
-                <th>Nama Vendor</th>
-                <th>Alamat</th>
-                <th>Email</th>
-                <th>No Telp</th>
-                <th colspan="2">Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-                    @foreach ($vendor as $item)
-                    <tr>
-                        <td>{{ $item->ID_VENDOR }}</td>
-                        <td>{{ $item->NAMA_VENDOR }}</td>
-                        <td>{{ $item->ALAMAT_VENDOR }}</td>
-                        <td>{{ $item->EMAIL_VENDOR }}</td>
-                        <td>{{ $item->NO_TELEPON }}</td>
-
-                            <td class="text-center">
-                            <a href="{{ url('vendor/ubah/'.$item->ID_VENDOR)}}" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-edit"></i> Ubah
-                                </a>
-                            </td>
-                            <td>
-                                    <form action="{{ url('vendor/'.$item->ID_VENDOR)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i> Hapus
-
-                                        </button>
-                                    </form>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{{ route('vendor.tambah') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table id="table" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Alamat</th>
+                                    <th>Email</th>
+                                    <th>No Telp</th>
+                                    <th width="130px">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($vendor as $key => $item)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->no_telp }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('vendor.edit',['id' => $item->id]) }}" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-edit"></i> Ubah
+                                        </a> 
+                                        <form action="{{ url('vendor/'.$item->id)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
+                                          @method('delete')
+                                          @csrf
+                                          <button class="btn btn-danger btn-sm">
+                                              <i class="fa fa-trash"></i> Hapus
+                                          </button>
+                                      </form>
                                     </td>
-                    </tr>
-
-                    @endforeach
-            </tbody>
-        </table>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            </div>
+        </div>
     </section>
     <!-- /.content -->
-  </div>
+</div>
 @endsection
 
+@section('script')
+<script>
+    $('#table').DataTable();
+
+</script>
+@endsection

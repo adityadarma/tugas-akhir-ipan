@@ -8,57 +8,61 @@ class VendorController extends Controller
 {
     public function data()
     {
-        $vendor = DB::table('vendor')->get();
-        //return $pelanggan;
-        return view('vendor.data',compact('vendor'));
-        //return $pelanggan->count();
+        $data['vendor'] = DB::table('vendor')->get();
+        
+        return view('vendor.data',$data);
     }
     public function tambah()
     {
-        $kode = DB::table('vendor')->max('ID_VENDOR');
-        $kodeP = $kode;
-        $urutan = (int) substr($kodeP, 3, 3);
-        $urutan++;
-        $huruf = "V";
-        $kodeP = $huruf . sprintf("%03s", $urutan);
-        return view('vendor.tambah', compact('kodeP'));
-        // return view('vendor.tambah');
+        return view('vendor.tambah');
     }
 
     public function tambahProcess(Request $request)
     {
-        DB::table('vendor')->insert(
-            [
-            'ID_VENDOR' => $request->ID_VENDOR,
-            'ID_USER' => $request->ID_USER,
-            'NAMA_VENDOR' => $request->NANA_VENDOR,
-             'ALAMAT_VENDOR' => $request->ALAMAT_VENDOR,
-             'EMAIL_VENDOR' => $request->EMAIL_VENDOR,
-             'NO_TELEPON' => $request->NO_TELEPON
-            ]);
-            return redirect('vendor')->with('status', 'Data Berhasil Di Tambahkan');
+        $request->validate([
+            "nama" => 'required|string',
+            "alamat" => 'required|string',
+            "email" => 'required|string|email',
+            "no_telp" => 'required|string',
+        ]);
+
+        DB::table('vendor')->insert([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp
+        ]);
+        
+        return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Tambahkan');
     }
     public function ubah($id)
     {
-        $vendor = DB::table('vendor')->where('ID_VENDOR',$id)->first();
-        return view('vendor.ubah',compact('vendor'));
+        $data['vendor'] = DB::table('vendor')->where('id',$id)->first();
+
+        return view('vendor.ubah', $data);
     }
     public function update(Request $request,$id)
     {
-        DB::table('vendor')->where('ID_VENDOR', '=', $id)->update
-        ([
-            'ID_VENDOR' => $request->ID_VENDOR,
-            'ID_USER' => $request->ID_USER,
-            'NAMA_VENDOR' => $request->NAMA_VENDOR,
-             'ALAMAT_VENDOR' => $request->ALAMAT_VENDOR,
-             'EMAIL_VENDOR' => $request->EMAIL_VENDOR,
-             'NO_TELEPON' => $request->NO_TELEPON
+        $request->validate([
+            "nama" => 'required|string',
+            "alamat" => 'required|string',
+            "email" => 'required|string|email',
+            "no_telp" => 'required|string',
         ]);
-        return redirect('vendor')->with('status', 'PAHAAMMM');
+
+        DB::table('vendor')->where('id', '=', $id)->update([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp
+        ]);
+
+        return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
     public function delete($id)
     {
-        DB::table('vendor')->where('ID_Vendor', $id)->delete();
-        return redirect('vendor')->with('status', 'PAHAAMMM');
+        DB::table('vendor')->where('id', $id)->delete();
+
+        return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Hapus');
     }
 }
