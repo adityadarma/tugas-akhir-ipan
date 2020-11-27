@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
                 'nama'                      => 'Admin',
                 'email'                     => 'admin@gmail.com',
                 'password'                  => Hash::make('admin'),
-                'role_id'                   => 1,
+                'role_id'                   => 2,
             ]
         ]);
     }

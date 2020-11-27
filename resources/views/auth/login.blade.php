@@ -25,10 +25,9 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Silahkan Lengkapi Form Di Bawah</p>
 
-      <form method="POST" action="{{ route('login') }}">
+      <form method="POST" action="{{ route('login-post') }}">
         @csrf
         <div class="input-group mb-3">
-          {{-- <input type="email" class="form-control" placeholder="Email"> --}}
           <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email" autofocus>
           @error('email')
             <span class="invalid-feedback" role="alert">
