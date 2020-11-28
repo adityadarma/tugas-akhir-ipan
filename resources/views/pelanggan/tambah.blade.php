@@ -28,7 +28,7 @@
         <div class="card-body pt-2">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ route('pelanggan.save') }}" method="post">
+                    <form action="{{ route('pelanggan.simpan') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">

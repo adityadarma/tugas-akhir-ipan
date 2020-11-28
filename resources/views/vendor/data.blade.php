@@ -57,7 +57,7 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->no_telp }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('vendor.edit',['id' => $item->id]) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('vendor.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a> 
                                         <form action="{{ url('vendor/'.$item->id)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">

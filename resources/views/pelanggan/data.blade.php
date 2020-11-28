@@ -59,7 +59,7 @@
                               <td>{{ $item->no_telp }}</td>
 
                               <td class="text-center">
-                                  <a href="{{ route('pelanggan.edit',['id' => $item->id]) }}"
+                                  <a href="{{ route('pelanggan.ubah',['id' => $item->id]) }}"
                                       class="btn btn-warning btn-sm">
                                       <i class="fa fa-edit"></i> Ubah
                                   </a> 
