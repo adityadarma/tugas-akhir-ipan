@@ -27,24 +27,24 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::get('/', 'HomeController@index')->name('index');
     Route::get('pelanggan', 'PelangganController@data')->name('pelanggan.index');
     Route::get('pelanggan/tambah', 'PelangganController@tambah')->name('pelanggan.tambah');
-    Route::post('pelanggan', 'PelangganController@tambahProcess')->name('pelanggan.save');
-    Route::get('pelanggan/ubah/{id}', 'PelangganController@ubah')->name('pelanggan.edit');
+    Route::post('pelanggan', 'PelangganController@tambahProcess')->name('pelanggan.simpan');
+    Route::get('pelanggan/ubah/{id}', 'PelangganController@ubah')->name('pelanggan.ubah');
     Route::post('pelanggan/ubah/{id}', 'PelangganController@update')->name('pelanggan.update');
     Route::delete('pelanggan/{id}', 'PelangganController@delete')->name('pelanggan.delete');
     
     Route::get('vendor', 'VendorController@data')->name('vendor.index');
     Route::get('vendor/tambah', 'VendorController@tambah')->name('vendor.tambah');
-    Route::post('vendor', 'VendorController@tambahProcess')->name('vendor.save');
-    Route::get('vendor/ubah/{id}', 'VendorController@ubah')->name('vendor.edit');
+    Route::post('vendor', 'VendorController@tambahProcess')->name('vendor.simpan');
+    Route::get('vendor/ubah/{id}', 'VendorController@ubah')->name('vendor.ubah');
     Route::post('vendor/ubah/{id}', 'VendorController@update')->name('vendor.update');
     Route::delete('vendor/{id}', 'VendorController@delete')->name('vendor.delete');
     
-    Route::get('barang', 'BarangController@data');
-    Route::get('barang/tambah', 'BarangController@tambah');
-    Route::post('barang', 'BarangController@tambahProcess');
-    Route::get('barang/ubah/{id}', 'BarangController@ubah');
-    Route::post('barang/ubah/{id}', 'BarangController@update');
-    Route::delete('barang/{id}', 'BarangController@delete');
+    Route::get('barang', 'BarangController@data')->name('barang.index');
+    Route::get('barang/tambah', 'BarangController@tambah')->name('barang.tambah');
+    Route::post('barang', 'BarangController@tambahProcess')->name('barang.simpan');
+    Route::get('barang/ubah/{id}', 'BarangController@ubah')->name('barang.ubah');
+    Route::post('barang/ubah/{id}', 'BarangController@update')->name('barang.update');
+    Route::delete('barang/{id}', 'BarangController@delete')->name('barang.delete');
     
     Route::get('pesanan', 'PesananController@data')->name('pesanan.index');
     Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');

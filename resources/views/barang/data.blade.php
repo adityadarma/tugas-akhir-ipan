@@ -4,84 +4,96 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Data Barang</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pelanggan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Pelanggan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
+        <div class="card">
+            <div class="card-body pt-4">
+                <div class="animated fadeIn">
+                    @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                    @endif
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('barang.tambah')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            Tambah</a>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3">
+                    <table id="table" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Jenis</th>
+                                <th>Satuan</th>
+                                <th>Stok</th>
+                                <th>Harga Jual</th>
+                                <th>Harga Beli</th>
+                                <th>Harga PerItem</th>
+                                <th width="130px">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($barang as $key => $item)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->jenis }}</td>
+                                <td>{{ $item->satuan }}</td>
+                                <td>{{ $item->stok }}</td>
+                                <td>Rp.{{ number_format($item->harga_jual, 2,',','.') }}</td>
+                                <td>Rp.{{ number_format($item->harga_beli, 2,',','.') }}</td>
+                                <td>Rp.{{ number_format($item->harga_peritem, 2,',','.') }}</td>
+                                <td class="text-center">
+                                    <a href="{{ url('barang/ubah/'.$item->id)}}" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-edit"></i> Ubah
+                                    </a>
+                                    <form action="{{ url('barang/'.$item->id)}}" method="POST" class="d-inline"
+                                        onsubmit="return confirm('Hapus gak nih?')">
+                                        @method('delete')
+                                        @csrf
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i> Hapus
 
-      <!-- Default box -->
-      <div class="content mt-3">
-            <div class="animated fadeIn">
-                    <div class="pull-right">
-                            <a href="{{ url('barang/tambah')}}" class="btn btn-success btn-sm">
-                                <i class="fa fa-plus"></i> Tambah
-                            </a>
-
-                        </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>ID Barang</th>
-                <th>Kode Barang</th>
-                <th>Nama Barang</th>
-                <th>Jenis Barang</th>
-                <th>Satuan</th>
-                <th>QTY</th>
-                <th>Harga Jual</th>
-                <th>Harga Beli</th>
-                <th>Harga PerItem</th>
-                <th colspan="2">Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-                    @foreach ($barang as $item)
-                    <tr>
-                        <td>{{ $item->ID_BARANG }}</td>
-                        <td>{{ $item->KODE_BARANG }}</td>
-                        <td>{{ $item->NAMA_BARANG }}</td>
-                        <td>{{ $item->JENIS_BARANG }}</td>
-                        <td>{{ $item->SATUAN }}</td>
-                        <td>{{ $item->QTY - $stoks }} buah</td>
-                        <td>Rp.{{ number_format($item->HARGA_JUAL, 2,',','.') }}</td>
-                        <td>Rp.{{ number_format($item->HARGA_BELI, 2,',','.') }}</td>
-                        <td>Rp.{{ number_format($item->HARGA_PERITEM, 2,',','.') }}</td>
-
-                            <td class="text-center">
-                                <a href="{{ url('barang/ubah/'.$item->ID_BARANG)}}" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-edit"></i> Ubah
-                                </a>
-                            </td>
-                            <td>
-                                <form action="{{ url('barang/'.$item->ID_BARANG)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i> Hapus
-
-                                    </button>
-                                </form>
-                            </td>
-                    </tr>
-                    @endforeach
-            </tbody>
-        </table>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            </div>
+        </div>
     </section>
     <!-- /.content -->
-  </div>
+</div>
 @endsection
 
+@section('script')
+<script>
+    $('#table').DataTable({
+      "responsive": true, "autoWidth": false
+    });
+</script>
+@endsection
