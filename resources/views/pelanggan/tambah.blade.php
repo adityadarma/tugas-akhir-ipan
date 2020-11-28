@@ -31,13 +31,19 @@
                     <form action="{{ route('pelanggan.simpan') }}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" name="kode" class="form-control" value="{{ $kode }}" readonly autofocus required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Nama Pelanggan</label>
                                     <input type="text" name="nama" class="form-control" autofocus required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Alamat Pelanggan</label>
                                     <input type="text" name="alamat" class="form-control" autofocus required>

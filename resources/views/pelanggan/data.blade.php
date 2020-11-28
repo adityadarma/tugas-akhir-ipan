@@ -85,7 +85,9 @@
 
 @section('script')
 <script>
-    $('#table').DataTable();
+    $('#table').DataTable({
+        "responsive": true, "autoWidth": false
+    });
 
 </script>
 @endsection

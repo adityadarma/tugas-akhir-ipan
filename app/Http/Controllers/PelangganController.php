@@ -16,7 +16,9 @@ class PelangganController extends Controller
 
     public function tambah()
     {
-        return view('pelanggan.tambah');
+        $data['kode'] = $this->_kodePelanggan();
+
+        return view('pelanggan.tambah', $data);
     }
 
     public function tambahProcess(Request $request)
@@ -29,7 +31,7 @@ class PelangganController extends Controller
         ]);
 
         DB::table('pelanggan')->insert([
-            'kode' => $this->_kodePelanggan(),
+            'kode' => $request->kode,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'email' => $request->email,

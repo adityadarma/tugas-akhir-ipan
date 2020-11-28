@@ -34,13 +34,19 @@
                         <form action="{{ route('pelanggan.update',['id' => $pelanggan->id]) }}" method="post">
                             @csrf
                             <div class="row">
-                              <div class="col-md-6">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Kode</label>
+                                        <input type="text" name="kode" class="form-control" value="{{ $pelanggan->kode }}" readonly autofocus required>
+                                    </div>
+                                </div>
+                              <div class="col-md-5">
                                   <div class="form-group">
                                       <label>Nama Pelanggan</label>
                                       <input type="text" name="nama" class="form-control" value="{{ $pelanggan->nama }}" autofocus required>
                                   </div>
                               </div>
-                              <div class="col-md-6">
+                              <div class="col-md-5">
                                   <div class="form-group">
                                       <label>Alamat Pelanggan</label>
                                       <input type="text" name="alamat" class="form-control" value="{{ $pelanggan->alamat }}"  autofocus required>
