@@ -46,14 +46,15 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('barang/ubah/{id}', 'BarangController@update')->name('barang.update');
     Route::delete('barang/{id}', 'BarangController@delete')->name('barang.delete');
     
-    Route::get('pesanan', 'PesananController@data')->name('pesanan.index');
+    Route::get('pesanan', 'PesananController@index')->name('pesanan.index');
+    Route::get('pesanan/tambah', 'PesananController@tambah')->name('pesanan.tambah');
+    Route::post('pesanan', 'PesananController@tambahProcess')->name('pesanan.simpan');
+    Route::get('pesanan/ubah/{id}', 'PesananController@ubah')->name('pesanan.ubah');
+    Route::post('pesanan/ubah/{id}', 'PesananController@update')->name('pesanan.update');
+    Route::delete('pesanan/{id}', 'PesananController@delete')->name('pesanan.hapus');
+    Route::get('pesanan/cetak', 'PesananController@cetak')->name('pesanan.cetak');
+    Route::get('pesanan/dcetak/{id}', 'PesananController@detailcetak')->name('pesanan.detail.cetak');
     Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');
-    // Route::get('pesanan/tambah', 'PesananController@tambah');
-    Route::get('pesanan/tambah/{ID_Pelanggan}', 'PesananController@tambah')->name('pesanan.index');
-    Route::post('pesanan/posting', 'PesananController@tambahProcess')->name('pesanan.index');
-    Route::get('pesanan/dcetak/{ID_PESANAN}', 'PesananController@detailcetak')->name('pesanan.index');
-    Route::get('pesanan/cetak', 'PesananController@cetak')->name('pesanan.index');
-    Route::get('pesanan/ubah/{ID_PESANAN}', 'PesananController@ubah')->name('pesanan.index');
     
     Route::get('aruskas', 'AruskasController@data');
     Route::get('aruskas/tambah', 'AruskasController@tambah');

@@ -1,163 +1,183 @@
 @extends('layouts.master')
 
+@section('style')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}">
+@endsection
+
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Ubah Pesanan</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pesanan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Pesanan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <div class="content mt-3">
-            <div class="animated fadeIn">
-
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-        <div class="card-body">
-            <td class="text-center">
-                <a href="{{ url('pesanan')}}" class="btn btn-warning btn-sm">
-                    <i class="fa fa-undo"></i> Kembali
-                </a>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Ubah Data Pesanan</h3>
             </div>
-            </div>
-            <div class="card-body">
+            <div class="card-body pt-2">
                 <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                    <form action="{{ url('pesanan/posting')}}/{{$pesanan->ID_PESANAN}}" method="post">
-                        @csrf
-
-                        <div class="form-group">
-                                <label>ID Pesanan</label>
-                        <input type="text" name="ID_Pesanan" value="{{ $pesanan->ID_PESANAN }}" readonly class="form-control" autofocus required>
-                        <input type="hidden" name="ID_Pelanggan" value="{{ $pesanan->ID_PELANGGAN }}" class="form-control" autofocus required>
-                        <input type="hidden" name="ID_User" value="" class="form-control" autofocus required>
+                    <div class="col-md-12">
+                        <form action="{{ route('pesanan.update',['id' => $pesanan->id]) }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kode</label>
+                                        <input type="text" name="kode" class="form-control" value="{{ $pesanan->kode }}" readonly required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Pelanggan</label>
+                                            <select name="pelanggan" id="pelanggan" class="form-control select2" style="width: 100%;">
+                                            @foreach ($pelanggan as $item)
+                                                <option value="{{ $item->id }}" {{ ($pesanan->pelanggan_id == $item->id) ? 'selected' : '' }}>{{ $item->nama.' | '.$item->no_telp }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tanggal Pesanan</label>
+                                        <input type="text" name="tgl_pesanan" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($pesanan->tgl_pesanan)) }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tanggal Jadi</label>
+                                        <input type="text" name="tgl_jadi" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($pesanan->tgl_jadi)) }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Barang</label>
+                                            <select name="barang" id="barang" class="form-control select2" style="width: 100%;">
+                                            @foreach ($barang as $item)
+                                                <option value="{{ $item->id }}" data-harga="{{ $item->harga_jual }}">{{ $item->nama.' | '.$item->jenis.' | '.$item->harga_jual }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Ukuran</label>
+                                        <input type="text" name="ukuran" class="form-control" value="{{ $pesanan->ukuran }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Jumlah Pesanan</label>
+                                        <input type="number" id="jml_pesanan" required name="jumlah_pesanan" class="form-control" value="{{ $pesanan->jumlah_pesanan }}" min="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Jumlah Warna</label>
+                                        <input type="number" id="jml_warna" name="jumlah_warna" class="form-control" value="{{ $pesanan->jumlah_warna }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Diskon (%)</label>
+                                        <input type="number" id="disc" name="disc" class="form-control" value="{{ $pesanan->disc }}"  min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total Harga</label>
+                                        <input type="number" name="total_harga" id="total_harga" readonly class="form-control" value="0" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Uang Muka</label>
+                                        <input type="text" id="uang_muka" name="uang_muka"  class="form-control" value="{{ $pesanan->uang_muka }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sisa Pembayaran</label>
+                                        <input type="text" id="sisa_pembayaran" name="sisa_pembayaran" class="form-control" value="0" readonly required>
+                                    </div>
+                                </div>
                             </div>
-                        <div class="form-group">
-                                <label>Tanggal Pesanan</label>
-                                <input type="date" name="Tgl_pesanan" value="{{ $pesanan->TGL_PESANAN }}" class="form-control" autofocus required>
-                            </div>
-                        <div class="form-group">
-                                <label>Tanggal Jadi</label>
-                                <input type="date" name="Tgl_jadi" value="{{ $pesanan->TGL_JADI }}" class="form-control" autofocus required>
-                            </div>
-                        <div class="form-group">
-                            <label>Barang</label>
-                                {{-- <input type="text" name="Jenis_pesanan" class="form-control" autofocus required> --}}
-                                <select name="barang" id="barang" class="form-control">
-                                <option value="">Pilih Barang</option>
-                                @foreach ($barang as $item)
-                                    <option value="{{$item->ID_BARANG}}" {{ ($pesanan->ID_BARANG == $item->ID_BARANG)?  'selected' : '' }} data-harga="{{$item->HARGA_JUAL}}">{{$item->NAMA_BARANG }} - {{ $item->HARGA_JUAL}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                         <div class="form-group">
-                                <label>Jenis Pesanan</label>
-                               {{-- <input type="text" name="Jenis_pesanan" class="form-control" autofocus required> --}}
-                               <select name="Jenis_pesanan" class="form-control">
-                               <option value="">Pilihlah</option>
-                               @foreach ($barang as $item)
-                                    <option value="{{$item->JENIS_BARANG}}" {{ ($item->JENIS_BARANG == $pesanan->JENIS_PESANAN)? 'selected' : '' }}>{{$item->JENIS_BARANG}}</option>
-                               @endforeach
-                            </select>
-                            </div>
-                         <div class="form-group">
-                             <label>Ukuran</label>
-                              <input type="text" name="Ukuran" value="{{ $pesanan->UKURAN }}" class="form-control" autofocus required>
-                             </div>
-                        <div class="form-group">
-                            <label>Jumlah Pesanan</label>
-                            <input type="text" data-harga="" value="{{ $pesanan->JUMLAH_PESANAN }}" id="jml_pesan" min="1" required name="Jumlah_pesanan" class="form-control">
-                        </div>
-                         <div class="form-group">
-                             <label>Jenis Kain</label>
-                             <input type="text" name="Jenis_kain" value="{{ $pesanan->JENIS_KAIN }}" class="form-control" autofocus required>
-                            </div>
-                        <div class="form-group">
-                            <label>Jumlah Warna</label>
-                            <input type="text" id="jml_warna" name="Jumlah_warna" value="{{ $pesanan->JUMLAH_WARNA }}" class="form-control" autofocus required>
-                            </div>
-                         <div class="form-group">
-                            <label>Diskon</label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" id="disc" name="Disc" value="{{ $pesanan->DISC }}" class="form-control" autofocus required>
-                            <span class="input-group-text">%</span>
-                        </div>
-                        <div class="form-group">
-                            <label>Total Harga</label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Rp</span>
-                            <input type="text" name="Total_harga" value="{{ $pesanan->TOTAL_HARGA }}" id="Total_harga"readonly class="form-control" autofocus required>
-                            <span class="input-group-append">
-                                <button type="button" id="hitung" class="btn btn-info btn-flat">Check</button>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                             <label>Uang Muka</label>
-                            </div>
-                            <div class="input-group mb-3">
-                            <span class="input-group-text">Rp</span>
-                            <input type="text" name="Uang_muka" value="{{ $pesanan->UANG_MUKA }}" class="form-control" autofocus required>
-                        </div>
-                        <div class="form-group">
-                             <label>Pembayaran</label>
-                        </div>
-                            <div class="input-group mb-3">
-                            <span class="input-group-text">Rp</span>
-                            <input type="text" name="Pembayaran" value="{{ $pesanan->PEMBAYARAN }}" class="form-control" autofocus required>
-                        </div>
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary">Batal</a>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     <!-- /.content -->
   </div>
 @endsection
 
 @section('script')
+<!-- Select2 -->
+<script src="{{ asset('plugins/select2/js/select2.full.min.js')}}"></script>
 <script>
 $(document).ready(function(){
-    //get barang
-    $('#barang').change(function(){
-        var harga = $("#barang option:selected").data('harga');
-        $('#jml_pesan').attr('data-harga',harga);
-    });
-
-    //hitung
-    $('#hitung').click(function(){
-        var barang = $('#jml_pesan').data('harga'),
-         warna = $('#jml_warna').val(),
-         jmlP = $('#jml_pesan').val(),
-         disc = $('#disc').val(),
-         Disc = parseInt(disc)/100,
-         totWarna = parseInt(warna)*10000,
-         hasil = (parseInt(barang)*parseInt(jmlP))+totWarna,
-         Total = hasil * Disc,
-         final = hasil - Total;
-        $('#Total_harga').val(final);
-    });
+    $('.select2').select2();
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy'
+    }); 
+    total_harga();
+    sisa_pembayaran();
 });
+
+$('#barang, #jml_pesanan, #jml_warna, #disc').on('change', function(){
+    total_harga();
+    sisa_pembayaran();
+});
+
+$('#jml_pesanan, #jml_warna, #disc').on('keyup', function(){
+    total_harga();
+    sisa_pembayaran();
+});
+
+$('#uang_muka').on('change, keyup', function(){
+    sisa_pembayaran();
+});
+
+function total_harga(){
+    let harga = $("#barang option:selected").data('harga');
+    let jml = $('#jml_pesanan').val();
+    let warna = $('#jml_warna').val();
+    let disc = $('#disc').val();
+
+    let harga_sablon = parseInt(warna) * 10000;
+    let hasil = (parseInt(harga) + harga_sablon) * parseInt(jml);
+    if(disc){
+        hasil_disc = hasil * (parseInt(disc) / 100);
+        hasil = hasil - hasil_disc;
+    }
+
+    $('#total_harga').val(isNaN(hasil) ? 0 : hasil);
+}
+
+function sisa_pembayaran(){
+    let uang_muka = $('#uang_muka').val();
+    let total_harga = $('#total_harga').val();
+    let hasil = parseInt(total_harga) - parseInt(uang_muka);
+    $('#sisa_pembayaran').val((isNaN(hasil) ? 0 : hasil));
+}
 </script>
 @endsection
+

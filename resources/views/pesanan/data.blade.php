@@ -4,110 +4,89 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Data Pesanan</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pesanan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Pesanan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <div class="content mt-3">
-        <div class="card">
-            <div class="card-body">
-                    <table id="table" class="table table-bordered">
+        <section class="content">
+            <div class="card">
+                <div class="card-body pt-4">
+                    <div class="animated fadeIn">
+                        @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{{ route('pesanan.tambah')}}" class="btn btn-success btn-sm"><i
+                                    class="fa fa-plus"></i> Tambah</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table id="table" class="table table-bordered">
                             <thead>
                                 <tr>
-                                <th>ID Pesanan</th>
-                                <th>ID Pelanggan</th>
-                                <th>ID User</th>
-                                <th>Tgl Pesan</th>
-                                <th>Tgl Jadi</th>
-                                <th>Jenis Pesanan</th>
-                                <th>Ukuran</th>
-                                <th>Jumlah Pesanan</th>
-                                <th>Jenis Kain</th>
-                                <th>Jumlah Warna</th>
-                                <th>Diskon</th>
-                                <th>Total Harga</th>
-                                <th>Uang Muka</th>
-                                <th>Pembayaran</th>
-                                {{-- <th colspan="2">Action</th> --}}
-                            </tr>
+                                    <th>No</th>
+                                    <th>Kode Pesanan</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Tanggal Pesanan</th>
+                                    <th>Jumlah</th>
+                                    <th>Total Harga</th>
+                                    <th>Dibuat</th>
+                                    <th width="130px">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pesanan as $item)
+                                @foreach ($pesanan as $key => $item)
                                 <tr>
-                                    <td>{{ $item->ID_PESANAN }}</td>
-                                    <td>{{ $item->ID_PELANGGAN }}</td>
-                                    <td>{{ $item->ID_USER }}</td>
-                                    <td>{{ $item->TGL_PESANAN }}</td>
-                                    <td>{{ $item->TGL_JADI }}</td>
-                                    <td>{{ $item->JENIS_PESANAN }}</td>
-                                    <td>{{ $item->UKURAN }}</td>
-                                    <td>{{ $item->JUMLAH_PESANAN }} pcs</td>
-                                    <td>{{ $item->JENIS_KAIN }}</td>
-                                    <td>{{ $item->JUMLAH_WARNA }}</td>
-                                    <td>{{ $item->DISC }} %</td>
-                                    <td>Rp.{{ number_format($item->TOTAL_HARGA, 2,',','.') }}</td>
-                                    <td>Rp.{{ number_format($item->UANG_MUKA, 2,',','.') }}</td>
-                                    <td>Rp.{{ number_format($item->PEMBAYARAN, 2,',','.') }}</td>
-
-                                    {{-- <td>
-                                        <a href="{{ url('pelanggan/ubah/'.$item->ID_PELANGGAN)}}" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-edit"></i> Ubah
-                                        </a>
-                                    </td>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $item->kode }}</td>
+                                    <td>{{ $item->nama_pelanggan }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan)) }}</td>
+                                    <td>{{ $item->jumlah_pesanan }} pcs</td>
+                                    <td>Rp. {{ number_format($item->total_harga, 0,',','.') }}</td>
+                                    <td>{{ $item->nama_user }}</td>
                                     <td>
-                                        <form action="{{ url('pelanggan/'.$item->ID_PELANGGAN)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i> Hapus
-
-                                        </button>
+                                        <a href="{{ route('pesanan.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i> Ubah </a>
+                                        <form action="{{ route('pesanan.hapus',['id' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus </button>
                                         </form>
-                                    </td> --}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
             </div>
-        </div>
-       </div>
-    </section>
-    <!-- /.content -->
-  </div>
+        </section>
+        <!-- /.content -->
+</div>
 @endsection
 
 @section('script')
-
-<!-- DataTables  & Plugins -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{ asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{ asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script>
-//  $('#table').DataTable();
-</script>
+    $('#table').DataTable({
+        "responsive": true,
+        "autoWidth": false
+    });
 
+</script>
 @endsection

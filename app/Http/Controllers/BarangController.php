@@ -77,6 +77,7 @@ class BarangController extends Controller
         
         return redirect()->route('barang.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
+    
     public function delete($id)
     {
         DB::table('barang')->where('id', $id)->delete();

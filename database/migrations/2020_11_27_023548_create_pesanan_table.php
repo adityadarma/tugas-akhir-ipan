@@ -28,10 +28,9 @@ class CreatePesananTable extends Migration
             $table->string('ukuran');
             $table->integer('jumlah_pesanan');
             $table->integer('jumlah_warna');
-            $table->integer('disc');
+            $table->integer('disc')->default(0);
             $table->integer('total_harga');
             $table->integer('uang_muka');
-            $table->integer('pembayaran');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
