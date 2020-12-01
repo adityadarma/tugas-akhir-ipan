@@ -28,7 +28,7 @@ class PesananController extends Controller
             ->latest('pesanan.id')
             ->get();
         
-        return view('pesanan.data',$data);
+        return view('pesanan.index',$data);
     }
 
     public function tambah()

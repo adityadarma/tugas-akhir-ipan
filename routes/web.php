@@ -25,21 +25,21 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']] , function(){
     Route::get('/', 'HomeController@index')->name('index');
-    Route::get('pelanggan', 'PelangganController@data')->name('pelanggan.index');
+    Route::get('pelanggan', 'PelangganController@index')->name('pelanggan.index');
     Route::get('pelanggan/tambah', 'PelangganController@tambah')->name('pelanggan.tambah');
     Route::post('pelanggan', 'PelangganController@tambahProcess')->name('pelanggan.simpan');
     Route::get('pelanggan/ubah/{id}', 'PelangganController@ubah')->name('pelanggan.ubah');
     Route::post('pelanggan/ubah/{id}', 'PelangganController@update')->name('pelanggan.update');
     Route::delete('pelanggan/{id}', 'PelangganController@delete')->name('pelanggan.delete');
     
-    Route::get('vendor', 'VendorController@data')->name('vendor.index');
+    Route::get('vendor', 'VendorController@index')->name('vendor.index');
     Route::get('vendor/tambah', 'VendorController@tambah')->name('vendor.tambah');
     Route::post('vendor', 'VendorController@tambahProcess')->name('vendor.simpan');
     Route::get('vendor/ubah/{id}', 'VendorController@ubah')->name('vendor.ubah');
     Route::post('vendor/ubah/{id}', 'VendorController@update')->name('vendor.update');
     Route::delete('vendor/{id}', 'VendorController@delete')->name('vendor.delete');
     
-    Route::get('barang', 'BarangController@data')->name('barang.index');
+    Route::get('barang', 'BarangController@index')->name('barang.index');
     Route::get('barang/tambah', 'BarangController@tambah')->name('barang.tambah');
     Route::post('barang', 'BarangController@tambahProcess')->name('barang.simpan');
     Route::get('barang/ubah/{id}', 'BarangController@ubah')->name('barang.ubah');
