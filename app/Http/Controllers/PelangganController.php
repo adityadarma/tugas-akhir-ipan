@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
-    public function data()
+    public function index()
     {
         $data['pelanggan'] = DB::table('pelanggan')->get();
 
-        return view('pelanggan.data', $data);
+        return view('pelanggan.index', $data);
     }
 
     public function tambah()

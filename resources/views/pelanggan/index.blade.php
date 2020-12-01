@@ -45,7 +45,7 @@
                               <th>Alamat</th>
                               <th>Email</th>
                               <th>No Telp</th>
-                              <th width="130px">Action</th>
+                              <th width="60px">Action</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -59,16 +59,11 @@
                               <td>{{ $item->no_telp }}</td>
 
                               <td class="text-center">
-                                  <a href="{{ route('pelanggan.ubah',['id' => $item->id]) }}"
-                                      class="btn btn-warning btn-sm">
-                                      <i class="fa fa-edit"></i> Ubah
-                                  </a> 
+                                  <a href="{{ route('pelanggan.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> 
                                   <form action="{{ route('pelanggan.delete',['id' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
                                       @method('delete')
                                       @csrf
-                                      <button class="btn btn-danger btn-sm">
-                                          <i class="fa fa-trash"></i> Hapus
-                                      </button>
+                                      <button class="btn btn-danger btn-sm" title="Hapus"><i class="fa fa-trash"></i></button>
                                   </form>
                               </td>
                           </tr>
