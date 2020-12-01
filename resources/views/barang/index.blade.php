@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Pelanggan</h1>
+                    <h1>Data Barang</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Pelanggan</li>
+                        <li class="breadcrumb-item active">Barang</li>
                     </ol>
                 </div>
             </div>
@@ -32,8 +32,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ route('barang.tambah')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
-                            Tambah</a>
+                        <a href="{{ route('barang.tambah')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
                     </div>
                 </div>
                 <div class="table-responsive mt-3">
@@ -65,8 +64,8 @@
                                 <td>Rp.{{ number_format($item->harga_beli, 2,',','.') }}</td>
                                 <td>Rp.{{ number_format($item->harga_peritem, 2,',','.') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('barang/ubah/'.$item->id)}}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                    <form action="{{ url('barang/'.$item->id)}}" method="POST" class="d-inline"
+                                    <a href="{{ route('barang.ubah',['id' => $item->id])}}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+                                    <form action="{{ route('barang.hapus',['id' => $item->id])}}" method="POST" class="d-inline"
                                         onsubmit="return confirm('Hapus gak nih?')">
                                         @method('delete')
                                         @csrf

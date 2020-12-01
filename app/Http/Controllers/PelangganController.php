@@ -67,7 +67,7 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         DB::table('pelanggan')->where('id', $id)->delete();
 

@@ -58,7 +58,7 @@
                                     <td>{{ $item->no_telp }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('vendor.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> 
-                                        <form action="{{ url('vendor/'.$item->id)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
+                                        <form action="{{ route('vendor.hapus',['id' => $item->id])}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
                                             @method('delete')
                                             @csrf
                                             <button class="btn btn-danger btn-sm" title="Hapus"><i class="fa fa-trash"></i></button>

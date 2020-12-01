@@ -116,7 +116,7 @@ class PesananController extends Controller
         return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         DB::table('pesanan')->where('id', $id)->delete();
 

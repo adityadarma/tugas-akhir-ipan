@@ -46,12 +46,14 @@ class BarangController extends Controller
 
         return redirect()->route('barang.index')->with('status', 'Data Berhasil Di Tambahkan');
     }
+
     public function ubah($id)
     {
         $data['barang'] = DB::table('barang')->where('id',$id)->first();
 
         return view('barang.ubah',$data);
     }
+
     public function update(Request $request,$id)
     {
         $request->validate([
@@ -78,7 +80,7 @@ class BarangController extends Controller
         return redirect()->route('barang.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         DB::table('barang')->where('id', $id)->delete();
 

@@ -64,7 +64,7 @@ class PelunasanController extends Controller
         return redirect()->route('pelunasan.index')->with('status', 'Data Berhasil Di Tambahkan');
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         DB::table('pelunasan')->where('id', $id)->delete();
 

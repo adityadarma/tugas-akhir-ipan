@@ -63,7 +63,7 @@ class VendorController extends Controller
         return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
     
-    public function delete($id)
+    public function hapus($id)
     {
         DB::table('vendor')->where('id', $id)->delete();
 
