@@ -1,101 +1,98 @@
 @extends('layouts.master')
 
+@section('style')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}">
+@endsection
+
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Masukkan ID Pesanan</h1>
-          </div>
-          {{-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-          </div> --}}
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Data Pelunasan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Pelunasan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <form class="form-inline">
-        <form action="pelunasan/tambah" method="GET" role="search">
-            <div class="input-group mx-sm-3 mb-2">
-                    <input type="date" name="idpesan" id="idpesan" class="form-control" placeholder="ID">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tambah Data Pelunasan</h3>
+            </div>
+            <div class="card-body pt-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('pelunasan.simpan') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Pesanan</label>
+                                            <select name="pesanan" id="pesanan" class="form-control select2" style="width: 100%;">
+                                            <option value="">Pilih Pesanan</option>
+                                            @foreach ($pesanan as $item)
+                                                <option value="{{ $item->id }}" data-pembayaran="{{ $item->total_harga - $item->uang_muka }}">{{ $item->kode.' | '.$item->nama_pelanggan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tanggal Pelunasan</label>
+                                        <input type="text" name="tgl_pelunasan" class="form-control datepicker" required>
+                                    </div>
+                                </div>  
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Sisa Pembayaran</label>
+                                        <input type="number" id="pembayaran" name="pembayaran"  value="0" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Keterangan</label>
+                                        <input type="text" id="keterangan" name="keterangan"  class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <a href="{{ route('pelunasan.index') }}" class="btn btn-secondary">Batal</a>
+                        </form>
+                    </div>
                 </div>
-            <button type="submit" class="btn btn-primary mb-2">Check</button>
-        </form>
-            <!-- Main content -->
-    <section class="content">
-
-            <!-- Default box -->
-            <div class="content mt-3">
-              <div class="card">
-                  {{-- <div class="card-header">
-                      <h3 class="card-title">Table</h3>
-                  </div> --}}
-                  <div class="card-body">
-                          <table id="table" class="table table-bordered">
-                                  <thead>
-                                      <tr>
-                                      <th>ID Pesanan</th>
-                                      <th>ID Pelanggan</th>
-                                      <th>ID User</th>
-                                      <th>Tgl Pesan</th>
-                                      <th>Tgl Jadi</th>
-                                      <th>Jenis Pesanan</th>
-                                      <th>Ukuran</th>
-                                      <th>Jumlah Pesanan</th>
-                                      <th>Jenis Kain</th>
-                                      <th>Jumlah Warna</th>
-                                      <th>Diskon</th>
-                                      <th>Total Harga</th>
-                                      <th>Uang Muka</th>
-                                      <th>Pembayaran</th>
-                                      <th colspan="1">Aksi</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                      @foreach ($pesanan as $item)
-                                      <tr id="findOne">
-                                          <td>{{ $item->ID_PESANAN }}</td>
-                                          <td>{{ $item->ID_PELANGGAN }}</td>
-                                          <td>{{ $item->ID_USER }}</td>
-                                          <td>{{ $item->TGL_PESANAN }}</td>
-                                          <td>{{ $item->TGL_JADI }}</td>
-                                          <td>{{ $item->JENIS_PESANAN }}</td>
-                                          <td>{{ $item->UKURAN }}</td>
-                                          <td>{{ $item->JUMLAH_PESANAN }} pcs</td>
-                                          <td>{{ $item->JENIS_KAIN }}</td>
-                                          <td>{{ $item->JUMLAH_WARNA }}</td>
-                                          <td>{{ $item->DISC }}%</td>
-                                          <td>Rp.{{ number_format($item->TOTAL_HARGA, 2,',','.') }}</td>
-                                          <td>Rp.{{ number_format($item->UANG_MUKA, 2,',','.') }}</td>
-                                          <td>Rp.{{ number_format($item->PEMBAYARAN, 2,',','.') }}</td>
-
-                                          <td>
-                                              <a href="{{ url('pelunasan/proses/'.$item->ID_PESANAN)}}" class="btn btn-warning btn-sm">
-                                              <i class="fa fa-edit"></i>
-                                              </a>
-                                          </td>
-                                      </tr>
-                                      @endforeach
-                                  </tbody>
-                              </table>
-                  </div>
-              </div>
-             </div>
-          </section>
-          <!-- /.content -->
-      </form>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
   </div>
 @endsection
 
+@section('script')
+<!-- Select2 -->
+<script src="{{ asset('plugins/select2/js/select2.full.min.js')}}"></script>
+<script>
+$(document).ready(function(){
+    $('.select2').select2();
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy'
+    }); 
+});
+
+$('#pesanan').on('change', function(){
+  let pembayaran = $("#pesanan option:selected").data('pembayaran');
+  $('#pembayaran').val(pembayaran);
+});
+</script>
+@endsection
 

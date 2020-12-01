@@ -19,12 +19,12 @@ class CreatePelunasanTable extends Migration
             $table->unsignedBigInteger('pesanan_id');
             $table->foreign('pesanan_id')->references('id')->on('pesanan')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('pelanggan_id');
-            $table->foreign('pelanggan_id')->references('id')->on('pelanggan');
-
             $table->date('tgl_pelunasan');
             $table->integer('pembayaran');
             $table->string('keterangan');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
         });

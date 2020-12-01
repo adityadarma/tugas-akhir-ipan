@@ -109,7 +109,8 @@ class PesananController extends Controller
             'jumlah_warna' => $request->jumlah_warna,
             'disc' => $request->disc,
             'total_harga' => $request->total_harga,
-            'uang_muka' => $request->uang_muka
+            'uang_muka' => $request->uang_muka,
+            'user_id' => auth()->user()->id
         ]);
         
         return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Perbaharui');
@@ -127,23 +128,6 @@ class PesananController extends Controller
         $data['pesanan'] = DB::table('pesanan')->where ('id',$id)->first();
 
         return view('pesanan.cetak',$data);
-    }
-    
-    public function detailcetak($ID_PESANAN)
-    {
-        $pesanan = DB::table('pesanans')->where ('ID_PESANAN',$ID_PESANAN)->get();
-
-        return view('pesanan.cetak',compact('pesanan'));
-    }
-
-    public function detail($ID_PELANGGAN)
-    {
-        $pelanggan = DB::table('pelanggans')->where('ID_PELANGGAN', $ID_PELANGGAN)->first();
-        $pesanan = DB::table('pesanans')->where ('ID_PELANGGAN',$ID_PELANGGAN)->get();
-        Log::info('Inputan: '.$ID_PELANGGAN);
-        //return $pelanggan;
-        return view('pesanan.detail',compact('pesanan', 'pelanggan'));
-        //return $pelanggan->count();
     }
 
     private function _kodePesanan()

@@ -56,20 +56,21 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::get('pesanan/dcetak/{id}', 'PesananController@detailcetak')->name('pesanan.detail.cetak');
     Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');
     
+    Route::get('pelunasan', 'PelunasanController@index')->name('pelunasan.index');
+    Route::get('pelunasan/tambah', 'PelunasanController@tambah')->name('pelunasan.tambah');
+    Route::post('pelunasan', 'PelunasanController@tambahProcces')->name('pelunasan.simpan');
+    Route::delete('pelunasan/{id}', 'PelunasanController@delete')->name('pelunasan.hapus');
+    Route::get('pelunasan/cetak/{id}', 'PelunasanController@cetak')->name('pelunasan.cetak');
+    // Route::post('pelunasan', 'PelunasanController@insert')->name('pelunasan.index');
+    // Route::get('pelunasan/detail', 'PelunasanController@detail')->name('pelunasan.detail');
+    // Route::get('pelunasan/dcetak/{ID_PELUNASAN}', 'PelunasanController@detailcetak')->name('pelunasan.index');
+    
     Route::get('aruskas', 'AruskasController@data');
     Route::get('aruskas/tambah', 'AruskasController@tambah');
     Route::post('aruskas', 'AruskasController@tambahProcess');
     Route::get('aruskas/detail', 'AruskasController@detail');
     Route::get('aruskas/ubah/{id}', 'AruskasController@ubah');
     Route::post('aruskas/ubah/{id}', 'AruskasController@update');
-    
-    Route::get('pelunasan', 'PelunasanController@data');
-    Route::get('pelunasan/tambah', 'PelunasanController@tambah');
-    Route::get('pelunasan/proses/{id}', 'PelunasanController@tambahProcces');
-    Route::post('pelunasan', 'PelunasanController@insert');
-    Route::get('pelunasan/detail', 'PelunasanController@detail');
-    Route::get('pelunasan/dcetak/{ID_PELUNASAN}', 'PelunasanController@detailcetak');
-    Route::get('pelunasan/cetak', 'PelunasanController@cetak');
     
     
     Route::get('user', 'UserController@data');

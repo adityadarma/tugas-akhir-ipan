@@ -62,7 +62,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="pesanan" class="nav-link">
+                    <a href="{{ route('pesanan.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
                             Data Pesanan
@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pelunasan" class="nav-link">
+                    <a href="{{ route('pelunasan.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Data Pelunasan
