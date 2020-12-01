@@ -128,7 +128,7 @@
                 </li>
                 @if (auth()->user()->role_id == 1)
                 <li class="nav-item">
-                  <a href="user" class="nav-link">
+                  <a href="{{ route('user.index') }}" class="nav-link">
                       <i class="nav-icon fas fa-address-card"></i>
                       <p>
                           Data User

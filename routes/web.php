@@ -25,6 +25,7 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']] , function(){
     Route::get('/', 'HomeController@index')->name('index');
+
     Route::get('pelanggan', 'PelangganController@index')->name('pelanggan.index');
     Route::get('pelanggan/tambah', 'PelangganController@tambah')->name('pelanggan.tambah');
     Route::post('pelanggan', 'PelangganController@tambahProcess')->name('pelanggan.simpan');
@@ -73,8 +74,12 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('aruskas/ubah/{id}', 'AruskasController@update');
     
     
-    Route::get('user', 'UserController@data');
-    Route::get('user/cari', 'UserController@cari');
+    Route::get('user', 'UserController@index')->name('user.index');
+    Route::get('user/tambah', 'UserController@tambah')->name('user.tambah');
+    Route::post('user', 'UserController@tambahProcess')->name('user.simpan');
+    Route::get('user/ubah/{id}', 'UserController@ubah')->name('user.ubah');
+    Route::post('user/ubah/{id}', 'UserController@update')->name('user.update');
+    Route::delete('user/{id}', 'UserController@hapus')->name('user.hapus');
     
     Route::group(array('prefix' => 'larangkuman'), function()
     {
