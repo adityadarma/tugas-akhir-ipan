@@ -48,7 +48,7 @@
                                     <th>Jumlah</th>
                                     <th>Total Harga</th>
                                     <th>Dibuat</th>
-                                    <th width="130px">Aksi</th>
+                                    <th width="90px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,12 +62,13 @@
                                     <td>Rp. {{ number_format($item->total_harga, 0,',','.') }}</td>
                                     <td>{{ $item->nama_user }}</td>
                                     <td>
-                                        <a href="{{ route('pesanan.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i> Ubah </a>
+                                        <a href="{{ route('pesanan.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
                                         <form action="{{ route('pesanan.hapus',['id' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
                                             @method('delete')
                                             @csrf
-                                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus </button>
+                                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                         </form>
+                                        <a href="{{ route('pesanan.cetak',['id' => $item->id]) }}" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class BarangController extends Controller
 {
-    public function data()
+    public function index()
     {
         $data['barang'] = DB::table('barang')->get();
         
-        return view('barang.data',$data);
+        return view('barang.index',$data);
     }
     public function tambah()
     {
@@ -77,7 +77,7 @@ class BarangController extends Controller
         
         return redirect()->route('barang.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
-    
+
     public function delete($id)
     {
         DB::table('barang')->where('id', $id)->delete();

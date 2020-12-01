@@ -40,7 +40,7 @@
                     <table id="table" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th width="10px">No</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Jenis</th>
@@ -49,7 +49,7 @@
                                 <th>Harga Jual</th>
                                 <th>Harga Beli</th>
                                 <th>Harga PerItem</th>
-                                <th width="130px">Aksi</th>
+                                <th width="60px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,17 +65,12 @@
                                 <td>Rp.{{ number_format($item->harga_beli, 2,',','.') }}</td>
                                 <td>Rp.{{ number_format($item->harga_peritem, 2,',','.') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('barang/ubah/'.$item->id)}}" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-edit"></i> Ubah
-                                    </a>
+                                    <a href="{{ url('barang/ubah/'.$item->id)}}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
                                     <form action="{{ url('barang/'.$item->id)}}" method="POST" class="d-inline"
                                         onsubmit="return confirm('Hapus gak nih?')">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i> Hapus
-
-                                        </button>
+                                        <button class="btn btn-danger btn-sm" title="Hapus"><i class="fa fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

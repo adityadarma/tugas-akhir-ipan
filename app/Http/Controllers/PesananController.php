@@ -122,12 +122,13 @@ class PesananController extends Controller
         return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Hapus');
     }
 
-    public function cetak()
+    public function cetak($id)
     {
-        $pesanan = DB::table('pesanans')->get();
+        $data['pesanan'] = DB::table('pesanan')->where ('id',$id)->first();
 
-        return view('pesanan.dcetak',compact('pesanan'));
+        return view('pesanan.cetak',$data);
     }
+    
     public function detailcetak($ID_PESANAN)
     {
         $pesanan = DB::table('pesanans')->where ('ID_PESANAN',$ID_PESANAN)->get();
