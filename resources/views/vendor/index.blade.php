@@ -40,12 +40,12 @@
                         <table id="table" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th width="10px">No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
                                     <th>Email</th>
                                     <th>No Telp</th>
-                                    <th width="130px">Aksi</th>
+                                    <th width="60px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,16 +57,12 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->no_telp }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('vendor.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm">
-                                            <i class="fa fa-edit"></i> Ubah
-                                        </a> 
+                                        <a href="{{ route('vendor.ubah',['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> 
                                         <form action="{{ url('vendor/'.$item->id)}}" method="POST" class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                                          @method('delete')
-                                          @csrf
-                                          <button class="btn btn-danger btn-sm">
-                                              <i class="fa fa-trash"></i> Hapus
-                                          </button>
-                                      </form>
+                                            @method('delete')
+                                            @csrf
+                                            <button class="btn btn-danger btn-sm" title="Hapus"><i class="fa fa-trash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

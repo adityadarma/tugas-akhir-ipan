@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class VendorController extends Controller
 {
-    public function data()
+    public function index()
     {
         $data['vendor'] = DB::table('vendor')->get();
         
-        return view('vendor.data',$data);
+        return view('vendor.index',$data);
     }
+
     public function tambah()
     {
         return view('vendor.tambah');
@@ -35,12 +36,14 @@ class VendorController extends Controller
         
         return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Tambahkan');
     }
+
     public function ubah($id)
     {
         $data['vendor'] = DB::table('vendor')->where('id',$id)->first();
 
         return view('vendor.ubah', $data);
     }
+
     public function update(Request $request,$id)
     {
         $request->validate([
@@ -59,6 +62,7 @@ class VendorController extends Controller
 
         return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Perbaharui');
     }
+    
     public function delete($id)
     {
         DB::table('vendor')->where('id', $id)->delete();

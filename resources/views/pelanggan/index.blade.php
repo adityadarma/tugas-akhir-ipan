@@ -39,7 +39,7 @@
                   <table id="table" class="table table-bordered">
                       <thead>
                           <tr>
-                              <th>No</th>
+                              <th width="10px">No</th>
                               <th>Kode</th>
                               <th>Nama</th>
                               <th>Alamat</th>
