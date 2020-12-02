@@ -15,6 +15,16 @@ class CreateAruskasTable extends Migration
     {
         Schema::create('aruskas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('kode')->unique();
+            $table->date('tanggal');
+            $table->string('keterangan');
+            $table->integer('status'); // 1. Debet 2. Kredit
+            $table->integer('jenis_transaksi'); //1. Tunai 2.Non Tunai
+            $table->integer('nominal');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

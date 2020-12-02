@@ -45,7 +45,7 @@
                               <th>Alamat</th>
                               <th>Email</th>
                               <th>No Telp</th>
-                              <th width="60px">Action</th>
+                              <th width="60px">Aksi</th>
                           </tr>
                       </thead>
                       <tbody>
