@@ -9,7 +9,7 @@ class PelangganController extends Controller
 {
     public function index()
     {
-        $data['pelanggan'] = DB::table('pelanggan')->get();
+        $data['pelanggan'] = DB::table('pelanggan')->whereNull('deleted_at')->get();
 
         return view('pelanggan.index', $data);
     }
@@ -29,6 +29,8 @@ class PelangganController extends Controller
             "alamat" => 'required|string',
             "email" => 'required|string|email',
             "no_telp" => 'required|string',
+            "created_at" => date('Y-m-d H:i:s'),
+            "updated_at" => date('Y-m-d H:i:s')
         ]);
 
         DB::table('pelanggan')->insert([
@@ -56,6 +58,7 @@ class PelangganController extends Controller
             "alamat" => 'required|string',
             "email" => 'required|string|email',
             "no_telp" => 'required|string',
+            "updated_at" => date('Y-m-d H:i:s')
         ]);
 
         DB::table('pelanggan')->where('id', '=', $id)->update([
@@ -70,7 +73,9 @@ class PelangganController extends Controller
 
     public function hapus($id)
     {
-        DB::table('pelanggan')->where('id', $id)->delete();
+        DB::table('pelanggan')->where('id', $id)->update([
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
 
         return redirect()->route('pelanggan.index')->with('status', 'Data Berhasil Di Hapus');
     }

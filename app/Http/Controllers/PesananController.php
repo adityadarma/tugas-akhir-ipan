@@ -35,7 +35,7 @@ class PesananController extends Controller
     {
         $data['kode'] = $this->_kodePesanan();
         $data['barang'] = DB::table('barang')->get();
-        $data['pelanggan'] = DB::table('pelanggan')->get();
+        $data['pelanggan'] = DB::table('pelanggan')->whereNull('deleted_at')->get();
         
         return view('pesanan.tambah',$data);
     }
