@@ -24,6 +24,7 @@ class PelangganController extends Controller
     public function tambahProcess(Request $request)
     {
         $request->validate([
+            "kode" => 'required|string|unique:pelanggan,kode',
             "nama" => 'required|string',
             "alamat" => 'required|string',
             "email" => 'required|string|email',

@@ -41,6 +41,7 @@
                             <thead>
                                 <tr>
                                     <th width="10px">No</th>
+                                    <th>Kode</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
                                     <th>Email</th>
@@ -52,6 +53,7 @@
                                 @foreach ($vendor as $key => $item)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
+                                    <td>{{ $item->kode }}</td>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->alamat }}</td>
                                     <td>{{ $item->email }}</td>

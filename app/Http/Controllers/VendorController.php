@@ -15,12 +15,15 @@ class VendorController extends Controller
 
     public function tambah()
     {
-        return view('vendor.tambah');
+        $data['kode'] = $this->_kodeVendor();
+
+        return view('vendor.tambah', $data);
     }
 
     public function tambahProcess(Request $request)
     {
         $request->validate([
+            "kode" => 'required|string|unique:vendor,kode',
             "nama" => 'required|string',
             "alamat" => 'required|string',
             "email" => 'required|string|email',
@@ -28,6 +31,7 @@ class VendorController extends Controller
         ]);
 
         DB::table('vendor')->insert([
+            'kode' => $request->kode,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'email' => $request->email,
@@ -68,5 +72,14 @@ class VendorController extends Controller
         DB::table('vendor')->where('id', $id)->delete();
 
         return redirect()->route('vendor.index')->with('status', 'Data Berhasil Di Hapus');
+    }
+
+    private function _kodeVendor()
+    {
+        $kode = DB::table('vendor')->max('kode');
+        $urutan = (int) substr($kode, 3, 3);
+        $urutan++;
+        $huruf = "V";
+        return $huruf . sprintf("%03s", $urutan);
     }
 }
