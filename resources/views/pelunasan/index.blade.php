@@ -41,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode Pelunasan</th>
                                 <th>Kode Pesanan</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Tanggal Pelunasan</th>
@@ -55,6 +56,7 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->kode }}</td>
+                                <td>{{ $item->kode_pesanan }}</td>
                                 <td>{{ $item->nama_pelanggan }}</td>
                                 <td>{{ date('d-m-Y', strtotime($item->tgl_pelunasan)) }}</td>
                                 <td>Rp. {{ number_format($item->pembayaran, 0,',','.') }}</td>
@@ -67,7 +69,7 @@
                                       @csrf
                                       <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                   </form>
-                                    <a href="{{ route('pelunasan.cetak',['id' => $item->id]) }}" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
+                                    <a href="{{ route('pelunasan.cetak',['id' => $item->id]) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
                                 </td>
                             </tr>
                             @endforeach

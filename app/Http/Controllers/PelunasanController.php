@@ -14,7 +14,7 @@ class PelunasanController extends Controller
                             ->join('users', 'users.id', '=', 'pesanan.user_id')
                             ->select([
                                 'pesanan.id',
-                                'pesanan.kode',
+                                'pesanan.kode as kode_pesanan',
                                 'pelanggan.nama as nama_pelanggan',
                                 'pelunasan.*',
                                 'users.nama as nama_user',
@@ -40,13 +40,15 @@ class PelunasanController extends Controller
             ])
             ->latest('pesanan.id')
             ->get();
-        
+        $data['kode'] = $this->_kodePelunasan();
+
         return view('pelunasan.tambah',$data);
     }
 
     public function tambahProcces(Request $request)
     {
         $request->validate([
+            "kode" => 'required|string|unique:pelunasan,kode',
             "pesanan" => 'required|numeric',
             "tgl_pelunasan" => 'required',
             "pembayaran" => 'required|numeric',
@@ -54,6 +56,7 @@ class PelunasanController extends Controller
         ]);
 
         DB::table('pelunasan')->insert([
+            'kode' => $request->kode,
             'pesanan_id' => $request->pesanan,
             'tgl_pelunasan' => date('Y-m-d', strtotime($request->tgl_pelunasan)),
             'pembayaran' => $request->pembayaran,
@@ -73,8 +76,32 @@ class PelunasanController extends Controller
 
     public function cetak($id)
     {
-        $data['pelunasan'] = DB::table('pelunasan')->where('id', $id)->first();
+        $data['pelunasan'] = DB::table('pelunasan')
+                                ->join('pesanan','pesanan.id','pelunasan.pesanan_id')
+                                ->join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
+                                ->where('pelunasan.id', $id)
+                                ->select([
+                                    'pelanggan.nama as nama_pelanggan',
+                                    'pelanggan.alamat as alamat_pelanggan',
+                                    'pesanan.kode as kode_pesanan',
+                                    'pesanan.tgl_pesanan',
+                                    'pesanan.tgl_jadi',
+                                    'pesanan.total_harga',
+                                    'pesanan.uang_muka',
+                                    'pelunasan.*'
+                                ])
+                                ->first();
 
-        return view('pelunasan.dcetak',$data);
+        return view('pelunasan.cetak', $data);
+    }
+
+    private function _kodePelunasan()
+    {
+        $kode = DB::table('pelunasan')->max('kode');
+        $urutan = (int) substr($kode, 3, 3);
+        $urutan++;
+        $huruf = "PL";
+        return $huruf . sprintf("%03s", $urutan);
+
     }
 }

@@ -54,9 +54,6 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('pelunasan', 'PelunasanController@tambahProcces')->name('pelunasan.simpan');
     Route::delete('pelunasan/{id}', 'PelunasanController@hapus')->name('pelunasan.hapus');
     Route::get('pelunasan/cetak/{id}', 'PelunasanController@cetak')->name('pelunasan.cetak');
-    // Route::post('pelunasan', 'PelunasanController@insert')->name('pelunasan.index');
-    // Route::get('pelunasan/detail', 'PelunasanController@detail')->name('pelunasan.detail');
-    // Route::get('pelunasan/dcetak/{ID_PELUNASAN}', 'PelunasanController@detailcetak')->name('pelunasan.index');
     
     Route::get('aruskas', 'AruskasController@index')->name('aruskas.index');
     Route::get('aruskas/tambah', 'AruskasController@tambah')->name('aruskas.tambah');

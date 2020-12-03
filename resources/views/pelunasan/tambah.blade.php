@@ -36,6 +36,12 @@
                         <form action="{{ route('pelunasan.simpan') }}" method="post">
                             @csrf
                             <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Kode</label>
+                                        <input type="text" name="kode" class="form-control" value="{{ $kode }}" readonly required>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pesanan</label>
@@ -47,7 +53,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tanggal Pelunasan</label>
                                         <input type="text" name="tgl_pelunasan" class="form-control datepicker" required>
