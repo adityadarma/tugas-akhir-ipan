@@ -82,9 +82,11 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('user/ubah/{id}', 'UserController@update')->name('user.update');
     Route::delete('user/{id}', 'UserController@hapus')->name('user.hapus');
     
-    Route::group(array('prefix' => 'larangkuman'), function()
+    Route::group(array('prefix' => 'laporan'), function()
     {
-        Route::get('/lapel', 'LaporanController@lapel');
+        Route::get('/perpelanggan', 'Laporan\PerpelangganController@index')->name('laporan.perpelanggan.index');
+        Route::get('/perpelanggan/print', 'Laporan\PerpelangganController@print')->name('laporan.perpelanggan.print');
+        
         Route::get('/laprang', 'LaporanController@laprang');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklapel');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklaprang');

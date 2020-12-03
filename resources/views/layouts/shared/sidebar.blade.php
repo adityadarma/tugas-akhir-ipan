@@ -95,33 +95,33 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/larangkuman/lapel" class="nav-link">
+                            <a href="{{ route('laporan.perpelanggan.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Lap Penjualan Per Pelanggan</p>
+                                <p>Penjualan Perpelanggan</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/larangkuman/laprang" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Lap Penjualan Rangkuman</p>
+                                <p>Penjualan Rangkuman</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="index3.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Lap Hutang dan Piutang</p>
+                                <p>Hutang dan Piutang</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="index3.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Lap Arus Kas</p>
+                                <p>Arus Kas</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="index3.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Lap Jurnal Penjualan</p>
+                                <p>Jurnal Penjualan</p>
                             </a>
                         </li>
                     </ul>

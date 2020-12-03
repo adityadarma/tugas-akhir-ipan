@@ -1,0 +1,174 @@
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;width: 100%; }
+.tg td{font-family:Arial;font-size:12px;padding:7px 4px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+.tg th{font-family:Arial;font-size:12px;font-weight:bold;padding:7px 4px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+.tg .tg-3wr7{font-weight:bold;font-size:12px;font-family:"Arial", Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-ti5e{font-size:10px;font-family:"Arial", Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-rv4w{font-size:10px;font-family:"Arial", Helvetica, sans-serif !important;}
+
+body {
+    font-family: sans-serif;
+    font-size: 10pt;
+    margin: 0.5cm 0;
+    text-align: justify;
+}
+
+#title {
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+    padding: 0px;
+}
+#title .title-header {
+    text-align: center;
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 20px;
+}
+#title .title-header-alamat {
+    text-align: center;
+    margin-top: 0px;
+    font-weight: normal;
+    font-size: 10px;
+    font-style: italic;
+}
+#header .judul_laporan {
+    text-align: center;
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#header .agent {
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+#header .subagent {
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+#header .manifest {
+    text-align: center;
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 18px;
+}
+#header .sub_manifest {
+    margin-top: 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#passenger table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 12px;
+}
+#passenger table td {
+    padding-top: 4;
+}
+#schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 12px;
+}
+#schedule table td {
+    padding-top: 3;
+}
+#activities table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 12px;
+}
+#allin table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 12px;
+}
+#transport table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 12px;
+}
+#transport table td {
+    padding-top: 4;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    color: #aaa;
+    font-size: 10px;
+}
+
+/*#header {*/
+/*top: 0;*/
+/*border-bottom: 0.1pt solid #aaa;*/
+/*}*/
+
+#footer {
+    bottom: 0;
+    border-top: 0.1pt solid #aaa;
+}
+
+#footer table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+#footer td {
+    padding: 0;
+    width: 50%;
+}
+
+.page-number {
+    text-align: right;
+}
+
+.page-number:before {
+    content: "Page " counter(page);
+}
+
+hr {
+    page-break-after: always;
+    border: 0;
+}
+
+.garis-dua {
+    border-top: 0.1pt solid #aaa;
+}
+.garis-satu {
+    border-top: 3pt solid #000;
+}
+
+.logo-img {
+    top: 12px;
+}
+
+.center {
+    text-align: center;
+}
+.left {
+    text-align: left;
+}
+
+.kepada {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.pengesah .nama {
+    font-weight: bold;
+}
+
+.page-break {
+    page-break-after: always;
+}
