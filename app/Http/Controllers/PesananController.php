@@ -70,6 +70,8 @@ class PesananController extends Controller
             'uang_muka' => $request->uang_muka,
             'user_id' => auth()->user()->id
         ]);
+
+        DB::table('barang')->where('id','=',$request->barang)->decrement('stok',$request->jumlah_pesanan);
             
         return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Tambahkan');
     }
@@ -98,22 +100,32 @@ class PesananController extends Controller
             "total_harga" => 'required|numeric',
             "uang_muka" => 'required|numeric',
         ]);
+        try {
+            $pesanan = DB::table('pesanan')->where('id', '=', $id)->first();
+            
+            DB::table('barang')
+                    ->where('id','=',$pesanan->barang_id)
+                    ->increment('stok',$pesanan->jumlah_pesanan);
 
-        DB::table('pesanan')->where('id', '=', $id)->update([
-            'pelanggan_id' => $request->pelanggan,
-            'barang_id' => $request->barang,
-            'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
-            'tgl_jadi' => date('Y-m-d', strtotime($request->tgl_jadi)),
-            'ukuran' => $request->ukuran,
-            'jumlah_pesanan' => $request->jumlah_pesanan,
-            'jumlah_warna' => $request->jumlah_warna,
-            'disc' => $request->disc,
-            'total_harga' => $request->total_harga,
-            'uang_muka' => $request->uang_muka,
-            'user_id' => auth()->user()->id
-        ]);
-        
-        return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Perbaharui');
+            DB::table('pesanan')->where('id', '=', $id)->update([
+                'pelanggan_id' => $request->pelanggan,
+                'barang_id' => $request->barang,
+                'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
+                'tgl_jadi' => date('Y-m-d', strtotime($request->tgl_jadi)),
+                'ukuran' => $request->ukuran,
+                'jumlah_pesanan' => $request->jumlah_pesanan,
+                'jumlah_warna' => $request->jumlah_warna,
+                'disc' => $request->disc,
+                'total_harga' => $request->total_harga,
+                'uang_muka' => $request->uang_muka,
+                'user_id' => auth()->user()->id
+            ]);
+            DB::table('barang')->where('id','=',$request->barang)->decrement('stok',$request->jumlah_pesanan);
+            
+            return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Perbaharui');
+        } catch (\Throwable $th) {
+            return redirect()->route('pesanan.ubah',['id' => $id])->with('error', 'Data Gagal Di Perbaharui');
+        }
     }
 
     public function hapus($id)

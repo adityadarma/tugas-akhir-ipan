@@ -30,6 +30,13 @@
             <div class="card-header">
                 <h3 class="card-title">Ubah Data Pesanan</h3>
             </div>
+            <div class="animated fadeIn">
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
+            </div>
             <div class="card-body pt-2">
                 <div class="row">
                     <div class="col-md-12">
