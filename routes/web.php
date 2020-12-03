@@ -11,14 +11,8 @@
 |
 */
 
-/*use Illuminate\Routing\Route;*/
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Auth::routes();
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/login', 'Auth\LoginController@loginPost')->name('login-post');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
@@ -53,10 +47,8 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::get('pesanan/ubah/{id}', 'PesananController@ubah')->name('pesanan.ubah');
     Route::post('pesanan/ubah/{id}', 'PesananController@update')->name('pesanan.update');
     Route::delete('pesanan/{id}', 'PesananController@hapus')->name('pesanan.hapus');
-    Route::get('pesanan/cetak', 'PesananController@cetak')->name('pesanan.cetak');
-    Route::get('pesanan/dcetak/{id}', 'PesananController@detailcetak')->name('pesanan.detail.cetak');
-    Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');
-    
+    Route::get('pesanan/cetak/{id}', 'PesananController@cetak')->name('pesanan.cetak');
+
     Route::get('pelunasan', 'PelunasanController@index')->name('pelunasan.index');
     Route::get('pelunasan/tambah', 'PelunasanController@tambah')->name('pelunasan.tambah');
     Route::post('pelunasan', 'PelunasanController@tambahProcces')->name('pelunasan.simpan');
@@ -86,7 +78,7 @@ Route::group(['middleware' => ['auth']] , function(){
     {
         Route::get('/perpelanggan', 'Laporan\PerpelangganController@index')->name('laporan.perpelanggan.index');
         Route::get('/perpelanggan/print', 'Laporan\PerpelangganController@print')->name('laporan.perpelanggan.print');
-        
+
         Route::get('/laprang', 'LaporanController@laprang');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklapel');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklaprang');

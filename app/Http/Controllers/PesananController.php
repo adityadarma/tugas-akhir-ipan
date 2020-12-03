@@ -137,7 +137,19 @@ class PesananController extends Controller
 
     public function cetak($id)
     {
-        $data['pesanan'] = DB::table('pesanan')->where ('id',$id)->first();
+        $data['pesanan'] = DB::table('pesanan')
+                            ->join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
+                            ->join('barang', 'barang.id', '=', 'pesanan.barang_id')
+                            ->where ('pesanan.id',$id)
+                            ->select([
+                                'pelanggan.nama as nama_pelanggan',
+                                'pelanggan.alamat as alamat_pelanggan',
+                                'barang.kode as kode_barang',
+                                'barang.nama as nama_barang',
+                                'barang.harga_jual as harga_barang',
+                                'pesanan.*'
+                            ])
+                            ->first();
 
         return view('pesanan.cetak',$data);
     }

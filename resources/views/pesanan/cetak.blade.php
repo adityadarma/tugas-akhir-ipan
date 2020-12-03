@@ -1,68 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token()}}">
+    <title>Invoice Pembayaran</title>
     <style>
-        table.static {
-            position: relative;
-            border: 1px solid cornflowerblack;
+        #tabel {
+            font-size: 15px;
+            border-collapse: collapse;
         }
+
+        #tabel td {
+            padding-left: 5px;
+            border: 1px solid black;
+        }
+
     </style>
-    <title>Cetak Bukti Pesanan</title>
 </head>
-<script type="text/javascript">
-    window.print();
-</script>
-<body align="text-center">
-    <div class="form-group">
-        <p align="center"><b>Bukti Pesanan</b></p>
-        <table class="static" align="center" rules="all" border="1px" style="width:50%; text-align: center">
-    @foreach ($pesanan as $item)
-    <tr>
-            <th>ID Pesanan</th>
-            <td>{{ $item->ID_PESANAN }}</td>
-    </tr>
-            <th>ID User</th>
-            <td>{{ $item->ID_USER }}</td>
-    </tr>
-            <th>Tgl Pesanan</th>
-            <td>{{ $item->TGL_PESANAN }}</td>
-    </tr>
-            <th>Tgl Jadi</th>
-            <td>{{ $item->TGL_JADI }}</td>
-    </tr>
-            <th>Jenis Pesanan</th>
-            <td>{{ $item->JENIS_PESANAN }}</td>
-    </tr>
-            <th>Ukuran</th>
-            <td>{{ $item->UKURAN }}</td>
-    </tr>
-            <th>Jumlah Pesanan</th>
-            <td>{{ $item->JUMLAH_PESANAN }} pcs</td>
-    </tr>
-            <th>Jenis Kain</th>
-            <td>{{ $item->JENIS_KAIN }}</td>
-    </tr>
-            <th>Jumlah Warna</th>
-            <td>{{ $item->JUMLAH_WARNA }}</td>
-    </tr>
-            <th>Diskon</th>
-            <td>{{ $item->DISC }} %</td>
-    </tr>
-            <th>Total Harga</th>
-            <td>Rp.{{ number_format($item->TOTAL_HARGA, 2,',','.') }}</td>
-    </tr>
-            <th>Uang Muka</th>
-            <td>Rp.{{ number_format($item->UANG_MUKA, 2,',','.') }}</td>
-    </tr>
-            <th>Pembayaran</th>
-            <td>Rp.{{ number_format($item->PEMBAYARAN, 2,',','.') }}</td>
-    </tr>
-    @endforeach
+
+<body style='font-family:tahoma; font-size:8pt;'>
+    <center>
+        <table style='width:100%; font-size:8pt; font-family:calibri; border-collapse: collapse;' border='0'>
+            <td width='70%' align='left' style='padding-right:80px; vertical-align:top'>
+                <span style='font-size:12pt'><b>CV.Kaos SisBro</b></span></br>
+                Jln.Tukad Citarum F1 No.38.Renon, Kec.Denpasar Selatan,Kota Denpasar,Bali
+            </td>
+            <td style='vertical-align:top' width='30%' align='left'>
+                <b><span style='font-size:12pt'>INVOICE PENJUALAN</span></b></br>
+                No Pesanan. : {{ $pesanan->kode }}</br>
+                Tanggal Pesanan : {{ date('d-m-Y', strtotime($pesanan->tgl_pesanan)) }}</br>
+                Tanggal Jadi : {{ date('d-m-Y', strtotime($pesanan->tgl_jadi)) }}</br>
+            </td>
         </table>
-    </div>
+        <table style='width:100%; font-size:8pt; font-family:calibri; border-collapse: collapse;' border='0'>
+            <td width='70%' align='left' style='padding-right:80px; vertical-align:top'>
+                Nama Pelanggan : {{ $pesanan->nama_pelanggan }}</br>
+                Alamat : {{ $pesanan->alamat_pelanggan }}
+            </td>
+            <td style='vertical-align:top' width='30%' align='left'></td>
+        </table>
+        <table cellspacing='0' style='width:100%; font-size:8pt; font-family:calibri;  border-collapse: collapse;'
+            border='1'>
+
+            <tr align='center'>
+                <td width='10%'>Kode Barang</td>
+                <td width='20%'>Nama Barang</td>
+                <td width='13%'>Harga</td>
+                <td width='3%'>Qty</td>
+                <td width='3%'>Discount</td>
+                <td width='13%'>Total Harga</td>
+            </tr>
+            <tr>
+                <td>{{ $pesanan->kode_barang }}</td>
+                <td>{{ $pesanan->nama_barang }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->harga_barang + ($pesanan->jumlah_warna * 10000), 0,',','.') }}</td>
+                <td style='text-align:right'>{{ $pesanan->jumlah_pesanan }}</td>
+                <td style='text-align:right'>{{ $pesanan->disc }}%</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
+            </tr>
+
+            <tr>
+                <td colspan='5'>
+                    <div style='text-align:right'>Total Yang Harus Di Bayar Adalah : </div>
+                </td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
+            </tr>
+            <tr>
+                <td colspan='5'>
+                    <div style='text-align:right'>DP : </div>
+                </td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->uang_muka, 0,',','.') }}</td>
+            </tr>
+            <tr>
+                <td colspan='5'>
+                    <div style='text-align:right'>Sisa Pembayaran : </div>
+                </td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga - $pesanan->uang_muka, 0,',','.') }}</td>
+            </tr>
+        </table>
+        <br>
+        <table style='width:100%; font-size:7pt;' cellspacing='2'>
+            <tr>
+                <td align='center'>Diterima Oleh,</br></br><u>(............)</u></td>
+                <td style='border:0px solid black; padding:5px; text-align:left; width:30%'></td>
+                <td align='center'>TTD,</br></br><u>(...........)</u></td>
+            </tr>
+        </table>
+    </center>
 </body>
+
+</html>

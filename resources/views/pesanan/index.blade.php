@@ -67,7 +67,7 @@
                                         @csrf
                                         <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                     </form>
-                                    <a href="{{ route('pesanan.cetak',['id' => $item->id]) }}" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
+                                    <a href="{{ route('pesanan.cetak',['id' => $item->id]) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
                                 </td>
                             </tr>
                             @endforeach
