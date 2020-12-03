@@ -37,16 +37,22 @@
                                     <input type="text" name="kode" class="form-control" value="{{ $kode }}" readonly required>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="text" name="tanggal" class="form-control datepicker" required>
-                                </div>
-                            </div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label>Keterangan</label>
                                     <input type="text" name="keterangan" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Nominal</label>
+                                    <input type="number" name="nominal" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input type="text" name="tanggal" class="form-control datepicker" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -65,12 +71,6 @@
                                         <option value="1">Tunai</option>
                                         <option value="2">Non Tunai</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Nominal</label>
-                                    <input type="number" name="nominal" class="form-control" required>
                                 </div>
                             </div>
                         </div>

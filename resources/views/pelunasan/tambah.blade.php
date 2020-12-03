@@ -52,20 +52,20 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tanggal Pelunasan</label>
-                                        <input type="text" name="tgl_pelunasan" class="form-control datepicker" required>
-                                    </div>
                                 </div>  
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Sisa Pembayaran</label>
                                         <input type="number" id="pembayaran" name="pembayaran"  value="0" class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Tanggal Pelunasan</label>
+                                        <input type="text" name="tgl_pelunasan" class="form-control datepicker" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
                                     <div class="form-group">
                                         <label>Keterangan</label>
                                         <input type="text" id="keterangan" name="keterangan"  class="form-control" required>

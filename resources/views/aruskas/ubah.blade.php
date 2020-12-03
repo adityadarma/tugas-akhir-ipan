@@ -37,16 +37,22 @@
                                     <input type="text" name="kode" class="form-control" value="{{ $aruskas->kode }}" readonly required>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="text" name="tanggal" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($aruskas->tanggal)) }}"  required>
-                                </div>
-                            </div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label>Keterangan</label>
                                     <input type="text" name="keterangan" class="form-control" value="{{ $aruskas->keterangan }}"  required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Nominal</label>
+                                    <input type="number" name="nominal" class="form-control" value="{{ $aruskas->nominal }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input type="text" name="tanggal" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($aruskas->tanggal)) }}"  required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -65,12 +71,6 @@
                                         <option value="1" {{ ($aruskas->jenis_transaksi == 1) ? 'selected' : '' }}>Tunai</option>
                                         <option value="2" {{ ($aruskas->jenis_transaksi == 2) ? 'selected' : '' }}>Non Tunai</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Nominal</label>
-                                    <input type="number" name="nominal" class="form-control" value="{{ $aruskas->nominal }}" required>
                                 </div>
                             </div>
                         </div>
