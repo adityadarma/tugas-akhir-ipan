@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Cetak Laporan Penjualan Perpelanggan</title>
+    <title>Cetak Laporan Penjualan Rangkuman</title>
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('dist/css/print-table.css')}}">
 </head>

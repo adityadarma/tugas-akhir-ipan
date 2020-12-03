@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="aruskas" class="nav-link">
+                    <a href="{{ route('aruskas.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-shopping-basket"></i>
                         <p>
                             Data Arus Kas
@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index3.html" class="nav-link">
+                            <a href="{{ route('laporan.aruskas.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Arus Kas</p>
                             </a>
