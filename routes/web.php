@@ -82,6 +82,9 @@ Route::group(['middleware' => ['auth']] , function(){
         Route::get('/aruskas', 'Laporan\AruskasController@index')->name('laporan.aruskas.index');
         Route::get('/aruskas/print', 'Laporan\AruskasController@print')->name('laporan.aruskas.print');
 
+        Route::get('/hutang-piutang', 'Laporan\HutangPiutangController@index')->name('laporan.hutang-piutang.index');
+        Route::get('/hutang-piutang/print', 'Laporan\HutangPiutangController@print')->name('laporan.hutang-piutang.print');
+
         Route::get('/laprang', 'LaporanController@laprang');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklapel');
         Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklaprang');
