@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data['pesanan'] = DB::table('pesanan')->count();
+        $data['pelunasan'] = DB::table('pelunasan')->count();
+        $data['pelanggan'] = DB::table('pelanggan')->whereNull('deleted_at')->count();
+
+        return view('home', $data);
     }
 }
