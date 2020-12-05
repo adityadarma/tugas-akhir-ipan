@@ -56,6 +56,8 @@ class PesananController extends Controller
             "uang_muka" => 'required|numeric',
         ]);
 
+        $barang = DB::table('barang')->find($request->barang);
+
         DB::table('pesanan')->insert([
             'pelanggan_id' => $request->pelanggan,
             'barang_id' => $request->barang,
@@ -63,6 +65,7 @@ class PesananController extends Controller
             'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
             'tgl_jadi' => date('Y-m-d', strtotime($request->tgl_jadi)),
             'ukuran' => $request->ukuran,
+            'harga_barang' => $barang->harga_jual,
             'jumlah_pesanan' => $request->jumlah_pesanan,
             'jumlah_warna' => $request->jumlah_warna,
             'disc' => $request->disc,

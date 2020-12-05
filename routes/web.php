@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('pesanan/ubah/{id}', 'PesananController@update')->name('pesanan.update');
     Route::delete('pesanan/{id}', 'PesananController@hapus')->name('pesanan.hapus');
     Route::get('pesanan/cetak/{id}', 'PesananController@cetak')->name('pesanan.cetak');
+    Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');
 
     Route::get('pelunasan', 'PelunasanController@index')->name('pelunasan.index');
     Route::get('pelunasan/tambah', 'PelunasanController@tambah')->name('pelunasan.tambah');
@@ -78,15 +79,14 @@ Route::group(['middleware' => ['auth']] , function(){
 
         Route::get('/rangkuman', 'Laporan\RangkumanController@index')->name('laporan.rangkuman.index');
         Route::get('/rangkuman/print', 'Laporan\RangkumanController@print')->name('laporan.rangkuman.print');
+        
+        Route::get('/hutang-piutang', 'Laporan\HutangPiutangController@index')->name('laporan.hutang-piutang.index');
+        Route::get('/hutang-piutang/print', 'Laporan\HutangPiutangController@print')->name('laporan.hutang-piutang.print');
 
         Route::get('/aruskas', 'Laporan\AruskasController@index')->name('laporan.aruskas.index');
         Route::get('/aruskas/print', 'Laporan\AruskasController@print')->name('laporan.aruskas.print');
 
-        Route::get('/hutang-piutang', 'Laporan\HutangPiutangController@index')->name('laporan.hutang-piutang.index');
-        Route::get('/hutang-piutang/print', 'Laporan\HutangPiutangController@print')->name('laporan.hutang-piutang.print');
-
-        Route::get('/laprang', 'LaporanController@laprang');
-        Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklapel');
-        Route::get('/cetak/{tglawal}/{tglakhir}', 'LaporanController@cetaklaprang');
+        Route::get('/jurnal-penjualan', 'Laporan\JurnalPenjualanController@index')->name('laporan.jurnal-penjualan.index');
+        Route::get('/jurnal-penjualan/print', 'Laporan\JurnalPenjualanController@print')->name('laporan.jurnal-penjualan.print');
     });
 });

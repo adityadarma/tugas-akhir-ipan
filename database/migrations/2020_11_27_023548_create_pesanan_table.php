@@ -26,6 +26,7 @@ class CreatePesananTable extends Migration
             $table->date('tgl_pesanan');
             $table->date('tgl_jadi');
             $table->string('ukuran');
+            $table->integer('harga_barang');
             $table->integer('jumlah_pesanan');
             $table->integer('jumlah_warna');
             $table->integer('disc')->default(0);
