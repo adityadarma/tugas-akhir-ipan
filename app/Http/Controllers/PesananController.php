@@ -157,6 +157,23 @@ class PesananController extends Controller
         return view('pesanan.cetak',$data);
     }
 
+    public function histori($id)
+    {
+        $data['pelanggan'] = DB::table('pelanggan')->find($id);
+        $data['pesanan'] = DB::table('pesanan')
+                            ->join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
+                            ->join('barang', 'barang.id', '=', 'pesanan.barang_id')
+                            ->where ('pelanggan.id',$id)
+                            ->select([
+                                'barang.nama as nama_barang',
+                                'barang.harga_jual as harga_barang',
+                                'pesanan.*'
+                            ])
+                            ->get();
+                            
+        return view('pesanan.histori',$data);
+    }
+
     private function _kodePesanan()
     {
         $kode = DB::table('pesanan')->max('kode');

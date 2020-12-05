@@ -52,7 +52,7 @@
                           @foreach ($pelanggan as $key => $item)
                           <tr>
                               <td>{{ $key+1 }}</td>
-                              <td><a href="{{ route('pesanan.detail', ['id' => $item->id]) }}">{{ $item->kode }}</a></td>
+                              <td><a href="{{ route('pesanan.histori', ['id' => $item->id]) }}">{{ $item->kode }}</a></td>
                               <td>{{ $item->nama }}</td>
                               <td>{{ $item->alamat }}</td>
                               <td>{{ $item->email }}</td>

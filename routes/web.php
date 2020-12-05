@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('pesanan/ubah/{id}', 'PesananController@update')->name('pesanan.update');
     Route::delete('pesanan/{id}', 'PesananController@hapus')->name('pesanan.hapus');
     Route::get('pesanan/cetak/{id}', 'PesananController@cetak')->name('pesanan.cetak');
-    Route::get('pesanan/detail/{id}', 'PesananController@detail')->name('pesanan.detail');
+    Route::get('pesanan/histori/{id}', 'PesananController@histori')->name('pesanan.histori');
 
     Route::get('pelunasan', 'PelunasanController@index')->name('pelunasan.index');
     Route::get('pelunasan/tambah', 'PelunasanController@tambah')->name('pelunasan.tambah');
