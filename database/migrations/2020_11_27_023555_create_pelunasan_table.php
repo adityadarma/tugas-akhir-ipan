@@ -23,6 +23,7 @@ class CreatePelunasanTable extends Migration
             $table->date('tgl_pelunasan');
             $table->integer('pembayaran');
             $table->string('keterangan');
+            $table->string('photo')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

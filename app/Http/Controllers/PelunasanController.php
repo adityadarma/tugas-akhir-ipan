@@ -54,7 +54,15 @@ class PelunasanController extends Controller
             "tgl_pelunasan" => 'required',
             "pembayaran" => 'required|numeric',
             "keterangan" => 'required|string',
+            "file" => 'image|mimes:jpeg,png,jpg',
         ]);
+
+        $foto = null;
+        if($request->file('file')){
+            $file = $request->file('file');
+            $foto = $file->getClientOriginalName();
+            $file->move('photo',$foto);
+        }
 
         DB::table('pelunasan')->insert([
             'kode' => $request->kode,
@@ -62,6 +70,7 @@ class PelunasanController extends Controller
             'tgl_pelunasan' => date('Y-m-d', strtotime($request->tgl_pelunasan)),
             'pembayaran' => $request->pembayaran,
             'keterangan' => $request->keterangan,
+            'photo' => $foto,
             'user_id' => auth()->user()->id
         ]);
 

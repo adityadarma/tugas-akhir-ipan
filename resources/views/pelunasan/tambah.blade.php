@@ -33,7 +33,7 @@
             <div class="card-body pt-2">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('pelunasan.simpan') }}" method="post">
+                        <form action="{{ route('pelunasan.simpan') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-2">
@@ -56,19 +56,25 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Sisa Pembayaran</label>
-                                        <input type="number" id="pembayaran" name="pembayaran"  value="0" class="form-control" required>
+                                        <input type="number" id="pembayaran" name="pembayaran"  value="0" class="form-control" required readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tanggal Pelunasan</label>
                                         <input type="text" name="tgl_pelunasan" class="form-control datepicker" value="{{ $tanggal }}" required readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Keterangan</label>
                                         <input type="text" id="keterangan" name="keterangan" value="Lunas" class="form-control" required readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Upload Bukti</label>
+                                        <input type="file" id="file" name="file">
                                     </div>
                                 </div>
                             </div>

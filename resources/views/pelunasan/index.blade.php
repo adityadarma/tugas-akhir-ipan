@@ -63,13 +63,10 @@
                                 <td>{{ $item->keterangan }}</td>
                                 <td>{{ $item->nama_user }}</td>
                                 <td>
-                                  <form action="{{ route('pelunasan.hapus',['id' => $item->id]) }}" method="POST"
-                                      class="d-inline" onsubmit="return confirm('Hapus gak nih?')">
-                                      @method('delete')
-                                      @csrf
-                                      <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                  </form>
                                     <a href="{{ route('pelunasan.cetak',['id' => $item->id]) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a>
+                                    @if ($item->photo)
+                                    <a href="{{ url('photo/'.$item->photo) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
