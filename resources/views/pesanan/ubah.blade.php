@@ -78,6 +78,7 @@
                                 <table width="100%">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Barang</th>
                                             <th>Jumlah Pesanan</th>
                                             <th>Jumlah Warna</th>
@@ -87,23 +88,26 @@
                                     <tbody id="detail">
                                         @foreach ($pesanan->details as $key => $item)
                                         <tr>
-                                            <td width="55%">
-                                                <select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_'+number+'" data-key="'+number+'">
+                                            <td width="2%">
+                                                <a href="javascript:void(0)" class="delDetail" data-toggle="tooltip" title="Delete"><span class="fas fa-times-circle text-danger"></a>
+                                            </td>
+                                            <td width="53%">
+                                                <select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_{{ $key }}" data-key="{{ $key }}">
                                                     <option value="">Pilih Barang</option>
                                                     @foreach ($barang as $value)
-                                                    <option value="{{ $value->id }}" data-harga="{{ $value->harga_jual }}" data-stok="{{ $value->stok }}" {{ ($value->id == $item->barang_id) ? 'selected' : ''  }}>{{ $value->nama }} | {{ $value->jenis }} | {{ $value->stok }} | {{ $value->harga_jual }}</option>
+                                                    <option value="{{ $value->id }}" data-harga="{{ $value->harga_jual }}" data-stok="{{ $value->stok + $item->jumlah_pesanan }}" {{ ($value->id == $item->barang_id) ? 'selected' : ''  }}>{{ $value->nama }} | {{ $value->jenis }} | {{ $value->stok }} | {{ $value->harga_jual }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
                                             <td width="15%"><input type="number" min="1" required name="jumlah_pesanan[]" class="form-control jml_pesanan" id="jml_pesanan_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_pesanan }}"></td>
-                                            <td width="15%"><input type="number" name="jumlah_warna[]" class="form-control jml_warna" id="jml_warna_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_pesanan }}" required></td>
+                                            <td width="15%"><input type="number" name="jumlah_warna[]" class="form-control jml_warna" id="jml_warna_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_warna }}" required></td>
                                             <td width="15%"><input type="text" name="total[]" class="form-control total" id="total_{{ $key }}" value="{{ (($item->jumlah_warna * 10000) + $item->harga_barang) * $item->jumlah_pesanan }}" data-key="{{ $key }}" required readonly></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="4"><a href="javascript:void(0)" class="btn btn-sm btn-success" id="add">Tambah</a></td>
+                                            <td colspan="5"><a href="javascript:void(0)" class="btn btn-sm btn-success" id="add">Tambah</a></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -127,7 +131,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Uang Muka</label>
-                                        <input type="text" id="uang_muka" name="uang_muka"  class="form-control" value="{{ $pesanan->uang_muka }}" required>
+                                        <input type="number" id="uang_muka" name="uang_muka"  class="form-control" value="{{ $pesanan->uang_muka }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -161,7 +165,11 @@ $(document).ready(function(){
     }); 
 });
 
-$('#uang_muka, #disc').on('change, keyup', function(){
+$('#uang_muka, #disc').on('keyup', function(){
+    sisa_pembayaran();
+});
+
+$('#uang_muka, #disc').on('change', function(){
     sisa_pembayaran();
 });
 
@@ -173,7 +181,10 @@ $('#add').on('click', function(){
     let number = $('.barang').length;
     $('#detail').append(
         '<tr>'+
-            '<td width="55%">'+
+            '<td width="2%">'+
+                '<a href="javascript:void(0)" class="delDetail" data-toggle="tooltip" title="Delete"><span class="fas fa-times-circle text-danger"></a>'+
+            '</td>'+
+            '<td width="53%">'+
                 '<select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_'+number+'" data-key="'+number+'">'+
                     '<option value="">Pilih Barang</option>'+
                     option+
@@ -184,18 +195,49 @@ $('#add').on('click', function(){
             '<td width="15%"><input type="text" name="total[]" value="0" class="form-control total" id="total_'+number+'" data-key="'+number+'" required></td>'+
         '</tr>'
     );
+    $('.delDetail').click(function(){
+        var toprow = $(this).closest("tr");
+        toprow.remove(); 
+        total_harga();
+        sisa_pembayaran();
+    });
 })
 
-$(document).on('change, keyup', '.barang, .jml_pesanan, .jml_warna', function(){
+$(document).on('keyup', '.barang, .jml_pesanan, .jml_warna', function(){
     let key = $(this).data('key');
     let harga = $('#barang_'+key).find(':selected').data('harga');
     let jumlah = $('#jml_pesanan_'+key).val();
     let warna = $('#jml_warna_'+key).val();
+    console.log(harga);
+    console.log(jumlah);
+    console.log(warna);
 
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
-    total_harga()
+    total_harga();
+    sisa_pembayaran();
+});
+
+$(document).on('change', '.barang, .jml_pesanan, .jml_warna', function(){
+    let key = $(this).data('key');
+    let harga = $('#barang_'+key).find(':selected').data('harga');
+    let jumlah = $('#jml_pesanan_'+key).val();
+    let warna = $('#jml_warna_'+key).val();
+    console.log(harga);
+    console.log(jumlah);
+    console.log(warna);
+    var total = (harga + (warna * 10000)) * jumlah;
+
+    $('#total_'+key).val(total);
+    total_harga();
+    sisa_pembayaran();
+});
+$('.delDetail').click(function(){
+    var toprow = $(this).closest("tr");
+    toprow.remove(); 
+    total_harga();
+    sisa_pembayaran();
 });
 
 function total_harga(){
@@ -216,6 +258,7 @@ function sisa_pembayaran(){
 }
 
 function validateForm() {
+    var status = true;
     let disc = $('#disc').val();;
     let uang_muka = $('#uang_muka').val();
     let total_harga = $('#total_harga').val();
@@ -228,19 +271,20 @@ function validateForm() {
 
         if (stok < jumlah) {
             alert("Pesanan melebihi stok");
-            return false;
+            status = false;
         }
     });
 
     if ((parseInt(total)/2) > parseInt(uang_muka)) {
         alert("Pembayaran minimal 50%");
-        return false;
+        status = false;
     }
 
-    if (parseInt(uang_muka) > parseInt(total_harga)) {
+    if ((parseInt(uang_muka) - parseInt(total_harga * (parseInt(disc) / 100))) > parseInt(total_harga)) {
         alert("Tolong cek nominal uang muka");
-        return false;
+        status = false;
     }
+    return status;
 }
 </script>
 @endsection

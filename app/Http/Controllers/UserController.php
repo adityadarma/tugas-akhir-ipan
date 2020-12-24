@@ -11,6 +11,7 @@ class UserController extends Controller
     {
         $data['user'] = DB::table('users')
                         ->join('role','role.id','=','users.role_id')
+                        ->whereNull('users.deleted_at')
                         ->select(['role.nama as nama_role','users.*'])
                         ->get();
 
@@ -73,7 +74,7 @@ class UserController extends Controller
 
     public function hapus($id)
     {
-        DB::table('users')->where('id', $id)->delete();
+        DB::table('users')->where('id', $id)->update(['deleted_at' => date('Y-m-d H:i:s')]);
 
         return redirect()->route('user.index')->with('status', 'Data Berhasil Di Hapus');
     }

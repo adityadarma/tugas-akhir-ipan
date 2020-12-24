@@ -110,16 +110,65 @@ class PesananController extends Controller
     {
         $request->validate([
             "pelanggan" => 'required|numeric',
-            "barang" => 'required|numeric',
+            "kode" => 'required|string',
             "tgl_pesanan" => 'required',
             "tgl_jadi" => 'required',
-            "ukuran" => 'required|string',
-            "jumlah_pesanan" => 'required|numeric',
-            "jumlah_warna" => 'required|numeric',
+            "barang.*" => 'required|array',
+            "barang.*" => 'required|numeric',
+            "jumlah_pesanan.*" => 'required|array',
+            "jumlah_pesanan.*" => 'required|numeric',
+            "jumlah_warna.*" => 'required|array',
+            "jumlah_warna.*" => 'required|numeric',
+            "total.*" => 'required|array',
+            "total.*" => 'required|numeric',
             "disc" => 'required|numeric',
             "total_harga" => 'required|numeric',
             "uang_muka" => 'required|numeric',
         ]);
+
+        DB::beginTransaction();
+        try {
+            $data = DB::table('pesanan_detail')->where('pesanan_id', '=', $id)->get();
+            foreach ($data as $key => $value) {
+                DB::table('barang')
+                ->where('id','=',$value->barang_id)
+                ->increment('stok',$value->jumlah_pesanan);
+            }
+            DB::table('pesanan_detail')->where('pesanan_id', '=', $id)->delete();
+
+            DB::table('pesanan')->where('id', '=', $id)->update([
+                'pelanggan_id' => $request->pelanggan,
+                'kode' => $request->kode,
+                'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
+                'tgl_jadi' => date('Y-m-d', strtotime($request->tgl_jadi)),
+                'disc' => $request->disc,
+                'total_harga' => $request->total_harga,
+                'uang_muka' => $request->uang_muka,
+                'user_id' => auth()->user()->id
+            ]);
+            
+            foreach ($request->barang as $key => $value) {
+                $barang = DB::table('barang')->find($value);
+    
+                DB::table('pesanan_detail')->insert([
+                    'pesanan_id' => $id,
+                    'barang_id' => $value,
+                    'harga_barang' => $barang->harga_jual,
+                    'jumlah_pesanan' => $request->jumlah_pesanan[$key],
+                    'jumlah_warna' => $request->jumlah_warna[$key],
+                ]);
+    
+                DB::table('barang')
+                ->where('id','=',$value)
+                ->decrement('stok',$request->jumlah_pesanan[$key]);
+            }
+
+            DB::commit();
+            return redirect()->route('pesanan.index')->with('status', 'Data Berhasil Di Tambahkan');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back();
+        }
         try {
             $pesanan = DB::table('pesanan')->where('id', '=', $id)->first();
             
@@ -157,16 +206,11 @@ class PesananController extends Controller
 
     public function cetak($id)
     {
-        $data['pesanan'] = DB::table('pesanan')
-                            ->join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
-                            ->join('barang', 'barang.id', '=', 'pesanan.barang_id')
+        $data['pesanan'] = Pesanan::join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
                             ->where ('pesanan.id',$id)
                             ->select([
                                 'pelanggan.nama as nama_pelanggan',
                                 'pelanggan.alamat as alamat_pelanggan',
-                                'barang.kode as kode_barang',
-                                'barang.nama as nama_barang',
-                                'barang.harga_jual as harga_barang',
                                 'pesanan.*'
                             ])
                             ->first();

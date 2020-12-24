@@ -72,6 +72,7 @@
                                 <table width="100%">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Barang</th>
                                             <th>Jumlah Pesanan</th>
                                             <th>Jumlah Warna</th>
@@ -83,7 +84,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="4"><a href="javascript:void(0)" class="btn btn-sm btn-success" id="add">Tambah</a></td>
+                                            <td colspan="5"><a href="javascript:void(0)" class="btn btn-sm btn-success" id="add">Tambah</a></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -107,7 +108,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Uang Muka</label>
-                                        <input type="text" id="uang_muka" name="uang_muka" value="0"  class="form-control" required>
+                                        <input type="number" id="uang_muka" name="uang_muka" value="0"  class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -141,7 +142,11 @@ $(document).ready(function(){
     }); 
 });
 
-$('#uang_muka, #disc').on('change, keyup', function(){
+$('#uang_muka, #disc').on('keyup', function(){
+    sisa_pembayaran();
+});
+
+$('#uang_muka, #disc').on('change', function(){
     sisa_pembayaran();
 });
 
@@ -153,7 +158,10 @@ $('#add').on('click', function(){
     let number = $('.barang').length;
     $('#detail').append(
         '<tr>'+
-            '<td width="55%">'+
+            '<td width="2%">'+
+                '<a href="javascript:void(0)" class="delDetail" data-toggle="tooltip" title="Delete"><span class="fas fa-times-circle text-danger"></a>'+
+            '</td>'+
+            '<td width="53%">'+
                 '<select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_'+number+'" data-key="'+number+'">'+
                     '<option value="">Pilih Barang</option>'+
                     option+
@@ -164,9 +172,15 @@ $('#add').on('click', function(){
             '<td width="15%"><input type="text" name="total[]" value="0" class="form-control total" id="total_'+number+'" data-key="'+number+'" required readonly></td>'+
         '</tr>'
     );
+    $('.delDetail').click(function(){
+        var toprow = $(this).closest("tr");
+        toprow.remove(); 
+        total_harga();
+        sisa_pembayaran();
+    });
 })
 
-$(document).on('change, keyup', '.barang, .jml_pesanan, .jml_warna', function(){
+$(document).on('keyup', '.barang, .jml_pesanan, .jml_warna', function(){
     let key = $(this).data('key');
     let harga = $('#barang_'+key).find(':selected').data('harga');
     let jumlah = $('#jml_pesanan_'+key).val();
@@ -175,7 +189,28 @@ $(document).on('change, keyup', '.barang, .jml_pesanan, .jml_warna', function(){
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
-    total_harga()
+    total_harga();
+    sisa_pembayaran();
+});
+
+$(document).on('change', '.barang, .jml_pesanan, .jml_warna', function(){
+    let key = $(this).data('key');
+    let harga = $('#barang_'+key).find(':selected').data('harga');
+    let jumlah = $('#jml_pesanan_'+key).val();
+    let warna = $('#jml_warna_'+key).val();
+
+    var total = (harga + (warna * 10000)) * jumlah;
+
+    $('#total_'+key).val(total);
+    total_harga();
+    sisa_pembayaran();
+});
+
+$('.delDetail').click(function(){
+    var toprow = $(this).closest("tr");
+    toprow.remove(); 
+    total_harga();
+    sisa_pembayaran();
 });
 
 function total_harga(){
@@ -196,6 +231,7 @@ function sisa_pembayaran(){
 }
 
 function validateForm() {
+    var status = true;
     let disc = $('#disc').val();;
     let uang_muka = $('#uang_muka').val();
     let total_harga = $('#total_harga').val();
@@ -208,19 +244,20 @@ function validateForm() {
 
         if (stok < jumlah) {
             alert("Pesanan melebihi stok");
-            return false;
+            status = false;
         }
     });
 
     if ((parseInt(total)/2) > parseInt(uang_muka)) {
         alert("Pembayaran minimal 50%");
-        return false;
+        status = false;
     }
 
-    if (parseInt(uang_muka) > parseInt(total_harga)) {
+    if ((parseInt(uang_muka) - parseInt(total_harga * (parseInt(disc) / 100))) > parseInt(total_harga)) {
         alert("Tolong cek nominal uang muka");
-        return false;
+        status = false;
     }
+    return status;
 }
 </script>
 @endsection

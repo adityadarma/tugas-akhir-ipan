@@ -37,43 +37,48 @@
             </td>
             <td style='vertical-align:top' width='30%' align='left'></td>
         </table>
-        <table cellspacing='0' style='width:100%; font-size:8pt; font-family:calibri;  border-collapse: collapse;'
-            border='1'>
+        <table cellspacing='0' style='width:100%; font-size:8pt; font-family:calibri;  border-collapse: collapse;' border='1'>
 
             <tr align='center'>
                 <td width='10%'>Kode Barang</td>
                 <td width='20%'>Nama Barang</td>
                 <td width='13%'>Harga</td>
                 <td width='3%'>Qty</td>
-                <td width='3%'>Discount</td>
                 <td width='13%'>Total Harga</td>
             </tr>
+            @foreach ($pesanan->details as $item)
             <tr>
-                <td>{{ $pesanan->kode_barang }}</td>
-                <td>{{ $pesanan->nama_barang }}</td>
-                <td style='text-align:right'>Rp. {{ number_format($pesanan->harga_barang + ($pesanan->jumlah_warna * 10000), 0,',','.') }}</td>
-                <td style='text-align:right'>{{ $pesanan->jumlah_pesanan }}</td>
-                <td style='text-align:right'>{{ $pesanan->disc }}%</td>
-                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
+                <td>{{ $item->barang->kode_barang }}</td>
+                <td>{{ $item->barang->nama_barang }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($item->harga_barang + ($item->jumlah_warna * 10000), 0,',','.') }}</td>
+                <td style='text-align:right'>{{ $item->jumlah_pesanan }}</td>
+                <td style='text-align:right'>Rp. {{ number_format(($item->harga_barang + ($item->jumlah_warna * 10000)) * $item->jumlah_pesanan, 0,',','.') }}</td>
             </tr>
+            @endforeach
 
             <tr>
-                <td colspan='5'>
-                    <div style='text-align:right'>Total Yang Harus Di Bayar Adalah : </div>
+                <td colspan='4'>
+                    <div style='text-align:right'>Total Harga : </div>
                 </td>
                 <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
             </tr>
             <tr>
-                <td colspan='5'>
+                <td colspan='4'>
+                    <div style='text-align:right'>Diskon (%): </div>
+                </td>
+                <td style='text-align:right'>Rp. {{ $pesanan->disc }}</td>
+            </tr>
+            <tr>
+                <td colspan='4'>
                     <div style='text-align:right'>DP : </div>
                 </td>
                 <td style='text-align:right'>Rp. {{ number_format($pesanan->uang_muka, 0,',','.') }}</td>
             </tr>
             <tr>
-                <td colspan='5'>
+                <td colspan='4'>
                     <div style='text-align:right'>Sisa Pembayaran : </div>
                 </td>
-                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga - $pesanan->uang_muka, 0,',','.') }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga - $pesanan->total_harga * ($pesanan->disc/100) - $pesanan->uang_muka, 0,',','.') }}</td>
             </tr>
         </table>
         <br>
