@@ -57,7 +57,7 @@
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->nama_pelanggan }}</td>
                                 <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan)) }}</td>
-                                <td>{{ $item->jumlah_pesanan }} pcs</td>
+                                <td>{{ $item->details->sum('jumlah_pesanan') }} pcs</td>
                                 <td>Rp. {{ number_format($item->total_harga, 0,',','.') }}</td>
                                 <td>{{ $item->nama_user }}</td>
                                 <td>

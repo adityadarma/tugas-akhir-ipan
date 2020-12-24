@@ -41,6 +41,7 @@ class PelunasanController extends Controller
             ->latest('pesanan.id')
             ->get();
         $data['kode'] = $this->_kodePelunasan();
+        $data['tanggal'] = date('d-m-Y');
 
         return view('pelunasan.tambah',$data);
     }

@@ -40,7 +40,7 @@
             <div class="card-body pt-2">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('pesanan.update',['id' => $pesanan->id]) }}" method="post">
+                        <form action="{{ route('pesanan.update',['id' => $pesanan->id]) }}" method="post" onsubmit="return validateForm()">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -59,68 +59,81 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Tanggal Pesanan</label>
                                         <input type="text" name="tgl_pesanan" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($pesanan->tgl_pesanan)) }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Tanggal Jadi</label>
                                         <input type="text" name="tgl_jadi" class="form-control datepicker" value="{{ date('d-m-Y', strtotime($pesanan->tgl_jadi)) }}" required>
                                     </div>
                                 </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <h5>Detail Pesanan</h5>
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Barang</th>
+                                            <th>Jumlah Pesanan</th>
+                                            <th>Jumlah Warna</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detail">
+                                        @foreach ($pesanan->details as $key => $item)
+                                        <tr>
+                                            <td width="55%">
+                                                <select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_'+number+'" data-key="'+number+'">
+                                                    <option value="">Pilih Barang</option>
+                                                    @foreach ($barang as $value)
+                                                    <option value="{{ $value->id }}" data-harga="{{ $value->harga_jual }}" data-stok="{{ $value->stok }}" {{ ($value->id == $item->barang_id) ? 'selected' : ''  }}>{{ $value->nama }} | {{ $value->jenis }} | {{ $value->stok }} | {{ $value->harga_jual }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td width="15%"><input type="number" min="1" required name="jumlah_pesanan[]" class="form-control jml_pesanan" id="jml_pesanan_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_pesanan }}"></td>
+                                            <td width="15%"><input type="number" name="jumlah_warna[]" class="form-control jml_warna" id="jml_warna_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_pesanan }}" required></td>
+                                            <td width="15%"><input type="text" name="total[]" class="form-control total" id="total_{{ $key }}" value="{{ (($item->jumlah_warna * 10000) + $item->harga_barang) * $item->jumlah_pesanan }}" data-key="{{ $key }}" required readonly></td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4"><a href="javascript:void(0)" class="btn btn-sm btn-success" id="add">Tambah</a></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Barang</label>
-                                            <select name="barang" id="barang" class="form-control select2" style="width: 100%;">
-                                            @foreach ($barang as $item)
-                                                <option value="{{ $item->id }}" data-harga="{{ $item->harga_jual }}">{{ $item->nama.' | '.$item->jenis.' | '.$item->harga_jual }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label>Total Harga</label>
+                                        <input type="number" name="total_harga" id="total_harga" readonly class="form-control" value="{{ $pesanan->total_harga }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Ukuran</label>
-                                        <input type="text" name="ukuran" class="form-control" value="{{ $pesanan->ukuran }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Jumlah Pesanan</label>
-                                        <input type="number" id="jml_pesanan" required name="jumlah_pesanan" class="form-control" value="{{ $pesanan->jumlah_pesanan }}" min="1">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Jumlah Warna</label>
-                                        <input type="number" id="jml_warna" name="jumlah_warna" class="form-control" value="{{ $pesanan->jumlah_warna }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Diskon (%)</label>
                                         <input type="number" id="disc" name="disc" class="form-control" value="{{ $pesanan->disc }}"  min="0" max="100">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Total Harga</label>
-                                        <input type="number" name="total_harga" id="total_harga" readonly class="form-control" value="0" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Uang Muka</label>
                                         <input type="text" id="uang_muka" name="uang_muka"  class="form-control" value="{{ $pesanan->uang_muka }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Sisa Pembayaran</label>
-                                        <input type="text" id="sisa_pembayaran" name="sisa_pembayaran" class="form-control" value="0" readonly required>
+                                        <input type="text" id="sisa_pembayaran" name="sisa_pembayaran" class="form-control" value="{{ $pesanan->total_harga - ($pesanan->total_harga * ($pesanan->disc/100)) - $pesanan->uang_muka }}" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -140,51 +153,94 @@
 <!-- Select2 -->
 <script src="{{ asset('plugins/select2/js/select2.full.min.js')}}"></script>
 <script>
+var list_barang = JSON.parse('{!!$barang!!}');
 $(document).ready(function(){
     $('.select2').select2();
     $('.datepicker').datepicker({
         format: 'dd-mm-yyyy'
     }); 
-    total_harga();
+});
+
+$('#uang_muka, #disc').on('change, keyup', function(){
     sisa_pembayaran();
 });
 
-$('#barang, #jml_pesanan, #jml_warna, #disc').on('change', function(){
-    total_harga();
-    sisa_pembayaran();
-});
+$('#add').on('click', function(){
+    var option = ''
+    $.each(list_barang, function(i,v){
+        option += '<option value="'+v.id+'" data-harga="'+v.harga_jual+'" data-stok="'+v.stok+'">'+v.nama+' | '+v.jenis+' | '+v.stok+' | '+v.harga_jual+'</option>';
+    });
+    let number = $('.barang').length;
+    $('#detail').append(
+        '<tr>'+
+            '<td width="55%">'+
+                '<select name="barang[]" class="form-control select2 barang" style="width: 100%;" id="barang_'+number+'" data-key="'+number+'">'+
+                    '<option value="">Pilih Barang</option>'+
+                    option+
+                '</select>'+
+            '</td>'+
+            '<td width="15%"><input type="number" min="1" required name="jumlah_pesanan[]" value="0" class="form-control jml_pesanan" id="jml_pesanan_'+number+'" data-key="'+number+'"></td>'+
+            '<td width="15%"><input type="number" name="jumlah_warna[]" value="0" class="form-control jml_warna" id="jml_warna_'+number+'" data-key="'+number+'" required></td>'+
+            '<td width="15%"><input type="text" name="total[]" value="0" class="form-control total" id="total_'+number+'" data-key="'+number+'" required></td>'+
+        '</tr>'
+    );
+})
 
-$('#jml_pesanan, #jml_warna, #disc').on('keyup', function(){
-    total_harga();
-    sisa_pembayaran();
-});
+$(document).on('change, keyup', '.barang, .jml_pesanan, .jml_warna', function(){
+    let key = $(this).data('key');
+    let harga = $('#barang_'+key).find(':selected').data('harga');
+    let jumlah = $('#jml_pesanan_'+key).val();
+    let warna = $('#jml_warna_'+key).val();
 
-$('#uang_muka').on('change, keyup', function(){
-    sisa_pembayaran();
+    var total = (harga + (warna * 10000)) * jumlah;
+
+    $('#total_'+key).val(total);
+    total_harga()
 });
 
 function total_harga(){
-    let harga = $("#barang option:selected").data('harga');
-    let jml = $('#jml_pesanan').val();
-    let warna = $('#jml_warna').val();
-    let disc = $('#disc').val();
-
-    let harga_sablon = parseInt(warna) * 10000;
-    let hasil = (parseInt(harga) + harga_sablon) * parseInt(jml);
-    if(disc){
-        hasil_disc = hasil * (parseInt(disc) / 100);
-        hasil = hasil - hasil_disc;
-    }
-
-    $('#total_harga').val(isNaN(hasil) ? 0 : hasil);
+    let total = 0;
+    $(".total").each(function() {
+        total += parseInt($(this).val());
+    });
+    $('#total_harga').val(total);
 }
 
 function sisa_pembayaran(){
+    let disc = $('#disc').val();;
     let uang_muka = $('#uang_muka').val();
     let total_harga = $('#total_harga').val();
-    let hasil = parseInt(total_harga) - parseInt(uang_muka);
+
+    let hasil = parseInt(total_harga) - parseInt(total_harga * (parseInt(disc) / 100)) - parseInt(uang_muka);
     $('#sisa_pembayaran').val((isNaN(hasil) ? 0 : hasil));
+}
+
+function validateForm() {
+    let disc = $('#disc').val();;
+    let uang_muka = $('#uang_muka').val();
+    let total_harga = $('#total_harga').val();
+    let total = total_harga - disc;
+
+    $(".barang").each(function() {
+        let key = $(this).data('key');
+        let stok = $('#barang_'+key).find(':selected').data('stok');
+        let jumlah = $('#jml_pesanan_'+key).val();
+
+        if (stok < jumlah) {
+            alert("Pesanan melebihi stok");
+            return false;
+        }
+    });
+
+    if ((parseInt(total)/2) > parseInt(uang_muka)) {
+        alert("Pembayaran minimal 50%");
+        return false;
+    }
+
+    if (parseInt(uang_muka) > parseInt(total_harga)) {
+        alert("Tolong cek nominal uang muka");
+        return false;
+    }
 }
 </script>
 @endsection
-

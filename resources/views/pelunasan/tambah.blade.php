@@ -62,13 +62,13 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Tanggal Pelunasan</label>
-                                        <input type="text" name="tgl_pelunasan" class="form-control datepicker" required>
+                                        <input type="text" name="tgl_pelunasan" class="form-control datepicker" value="{{ $tanggal }}" required readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="form-group">
                                         <label>Keterangan</label>
-                                        <input type="text" id="keterangan" name="keterangan"  class="form-control" required>
+                                        <input type="text" id="keterangan" name="keterangan" value="Lunas" class="form-control" required readonly>
                                     </div>
                                 </div>
                             </div>
