@@ -56,7 +56,7 @@
                     <?php $debet = 0; $kredit = 0; ?>
                     @foreach ($pesanan as $item)
                     <tr>
-                        <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan )) }}</td>
+                        <td>{{ date('d-m-Y', strtotime($item->tanggal )) }}</td>
                         <td>{{ $item->keterangan }}</td>
                         <td>{{ $item->no_bukti }}</td>
                         <td>Rp. {{ number_format($item->debet, 0,',','.') }}</td>

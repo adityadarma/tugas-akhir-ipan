@@ -16,7 +16,7 @@ class CreateJurnalTable extends Migration
         Schema::create('jurnal', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->date('tgl_pesanan');
+            $table->date('tanggal');
             $table->string('no_bukti');
             $table->string('keterangan');
             $table->integer('debet');

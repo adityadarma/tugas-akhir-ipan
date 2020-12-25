@@ -63,7 +63,7 @@ class PesananController extends Controller
         try {
             $jurnal = DB::table('jurnal')->insertGetId([
                 'no_bukti' => $request->kode,
-                'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
+                'tanggal' => date('Y-m-d', strtotime($request->tgl_pesanan)),
                 'keterangan' => 'Penjualan dengan no '.$request->kode,
                 'debet' => $request->total_harga,
                 'kredit' => $request->total_harga,

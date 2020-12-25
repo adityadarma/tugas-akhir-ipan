@@ -13,7 +13,7 @@ class JurnalPenjualanController extends Controller
         $data = $post;
             
         if($post){
-            $data['pesanan'] = Jurnal::whereBetween('tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
+            $data['pesanan'] = Jurnal::whereBetween('tanggal',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
             ->oldest()
             ->get();
         }
@@ -24,7 +24,7 @@ class JurnalPenjualanController extends Controller
     public function print(Request $request){
         $post = $request->all();
 
-        $data['pesanan'] = Jurnal::whereBetween('tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
+        $data['pesanan'] = Jurnal::whereBetween('tanggal',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
             ->oldest()
             ->get();
 

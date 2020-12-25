@@ -31,7 +31,17 @@ class AruskasController extends Controller
             "nominal" => 'required|numeric',
         ]);
 
+        $jurnal = DB::table('jurnal')->insertGetId([
+            'no_bukti' => $request->kode,
+            'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
+            'keterangan' => $request->keterangan,
+            'debet' => ($request->status == 1) ? $request->nominal : 0,
+            'kredit' => ($request->status == 2) ? $request->nominal : 0,
+            'user_id' => auth()->user()->id
+        ]);
+
         DB::table('aruskas')->insert([
+            'jurnal_id' => $jurnal,
             'kode' => $request->kode,
             'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
             'keterangan' => $request->keterangan,
@@ -59,6 +69,14 @@ class AruskasController extends Controller
             "status" => 'required|numeric',
             "jenis_transaksi" => 'required|numeric',
             "nominal" => 'required|numeric',
+        ]);
+
+        $aruskas = DB::table('aruskas')->where('id', '=', $id)->first();
+        DB::table('jurnal')->where('id','=',$aruskas->jurnal_id)->update([
+            'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
+            'keterangan' => $request->keterangan,
+            'debet' => ($request->status == 1) ? $request->nominal : 0,
+            'kredit' => ($request->status == 2) ? $request->nominal : 0
         ]);
 
         DB::table('aruskas')->where('id', '=', $id)->update([

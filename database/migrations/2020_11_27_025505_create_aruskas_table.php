@@ -15,6 +15,10 @@ class CreateAruskasTable extends Migration
     {
         Schema::create('aruskas', function (Blueprint $table) {
             $table->bigIncrements('id');
+                        
+            $table->unsignedBigInteger('jurnal_id');
+            $table->foreign('jurnal_id')->references('id')->on('jurnal');
+            
             $table->string('kode')->unique();
             $table->date('tanggal');
             $table->string('keterangan');
