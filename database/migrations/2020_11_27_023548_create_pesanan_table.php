@@ -18,6 +18,9 @@ class CreatePesananTable extends Migration
 
             $table->unsignedBigInteger('pelanggan_id');
             $table->foreign('pelanggan_id')->references('id')->on('pelanggan');
+            
+            $table->unsignedBigInteger('jurnal_id');
+            $table->foreign('jurnal_id')->references('id')->on('jurnal');
 
             $table->string('kode')->unique();
             $table->date('tgl_pesanan');

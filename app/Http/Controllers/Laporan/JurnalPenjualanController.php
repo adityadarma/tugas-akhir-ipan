@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\DB;
+use App\Jurnal;
 use Illuminate\Http\Request;
 
 class JurnalPenjualanController extends Controller
@@ -14,10 +13,7 @@ class JurnalPenjualanController extends Controller
         $data = $post;
             
         if($post){
-            $data['pesanan'] = DB::table('pesanan')
-            ->join('pelanggan','pelanggan.id','pesanan.pelanggan_id')
-            ->whereBetween('pesanan.tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
-            ->select('pelanggan.nama as nama_pelanggan','pesanan.*')
+            $data['pesanan'] = Jurnal::whereBetween('tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
             ->oldest()
             ->get();
         }
@@ -28,10 +24,7 @@ class JurnalPenjualanController extends Controller
     public function print(Request $request){
         $post = $request->all();
 
-        $data['pesanan'] = DB::table('pesanan')
-            ->join('pelanggan','pelanggan.id','pesanan.pelanggan_id')
-            ->whereBetween('pesanan.tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
-            ->select('pelanggan.nama as nama_pelanggan','pesanan.*')
+        $data['pesanan'] = Jurnal::whereBetween('tgl_pesanan',[date('Y-m-d', strtotime(($post['awal']))), date('Y-m-d', strtotime(($post['akhir'])))])
             ->oldest()
             ->get();
 

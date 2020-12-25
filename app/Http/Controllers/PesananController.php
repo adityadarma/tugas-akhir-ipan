@@ -61,7 +61,17 @@ class PesananController extends Controller
 
         DB::beginTransaction();
         try {
+            $jurnal = DB::table('jurnal')->insertGetId([
+                'no_bukti' => $request->kode,
+                'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
+                'keterangan' => 'Penjualan dengan no '.$request->kode,
+                'debet' => $request->total_harga,
+                'kredit' => $request->total_harga,
+                'user_id' => auth()->user()->id
+            ]);
+
             $pasanan = DB::table('pesanan')->insertGetId([
+                'jurnal_id' => $jurnal,
                 'pelanggan_id' => $request->pelanggan,
                 'kode' => $request->kode,
                 'tgl_pesanan' => date('Y-m-d', strtotime($request->tgl_pesanan)),
@@ -135,6 +145,12 @@ class PesananController extends Controller
                 ->increment('stok',$value->jumlah_pesanan);
             }
             DB::table('pesanan_detail')->where('pesanan_id', '=', $id)->delete();
+
+            $pesanan = DB::table('pesanan')->where('id', '=', $id)->first();
+            DB::table('jurnal')->where('id','=',$pesanan->jurnal_id)->update([
+                'debet' => $request->total_harga,
+                'kredit' => $request->total_harga
+            ]);
 
             DB::table('pesanan')->where('id', '=', $id)->update([
                 'pelanggan_id' => $request->pelanggan,

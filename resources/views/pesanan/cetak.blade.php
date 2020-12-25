@@ -58,15 +58,21 @@
 
             <tr>
                 <td colspan='4'>
-                    <div style='text-align:right'>Total Harga : </div>
+                    <div style='text-align:right'>Sub Total : </div>
                 </td>
-                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total(), 0,',','.') }}</td>
             </tr>
             <tr>
                 <td colspan='4'>
-                    <div style='text-align:right'>Diskon (%): </div>
+                    <div style='text-align:right'>Diskon : </div>
                 </td>
-                <td style='text-align:right'>Rp. {{ $pesanan->disc }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total() * ($pesanan->disc/100), 0,',','.') }}</td>
+            </tr>
+            <tr>
+                <td colspan='4'>
+                    <div style='text-align:right'>Total Harga : </div>
+                </td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga, 0,',','.') }}</td>
             </tr>
             <tr>
                 <td colspan='4'>
@@ -78,7 +84,7 @@
                 <td colspan='4'>
                     <div style='text-align:right'>Sisa Pembayaran : </div>
                 </td>
-                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga - $pesanan->total_harga * ($pesanan->disc/100) - $pesanan->uang_muka, 0,',','.') }}</td>
+                <td style='text-align:right'>Rp. {{ number_format($pesanan->total_harga - $pesanan->uang_muka, 0,',','.') }}</td>
             </tr>
         </table>
         <br>
