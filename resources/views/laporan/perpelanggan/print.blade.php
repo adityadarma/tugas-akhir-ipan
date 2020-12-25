@@ -15,8 +15,8 @@
             <tr>
                 <th>Kode Pesanan</th>
                 <th>Tanggal Pesanan</th>
-                <th>Jenis Pesanan</th>
                 <th>Jumlah Pesanan</th>
+                <th>Sub Total</th>
                 <th>Diskon</th>
                 <th>Total Harga</th>
                 <th>Uang Muka</th>
@@ -27,8 +27,8 @@
             <tr>
                 <td>{{ $item->kode }}</td>
                 <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan )) }}</td>
-                <td>{{ $item->jenis }}</td>
-                <td>{{ $item->jumlah_pesanan }}</td>
+                <td>{{ $item->details->sum('jumlah_pesanan') }}</td>
+                <td>{{ number_format ($item->total(), 0,',','.') }}</td>
                 <td>{{ $item->disc }}%</td>
                 <td>Rp. {{ number_format ($item->total_harga, 0,',','.') }}</td>
                 <td>Rp. {{ number_format ($item->uang_muka, 0,',','.') }}</td>
