@@ -33,7 +33,7 @@ class LoginController extends Controller
         }
         $credentials = $request->only('email', 'password');
 
-        if(Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']]))
+        if(Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'deleted_at' => null]))
         {
             return redirect()->route('index');
         }
