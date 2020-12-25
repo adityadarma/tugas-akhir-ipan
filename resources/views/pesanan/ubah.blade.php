@@ -86,6 +86,9 @@
                                         </tr>
                                     </thead>
                                     <tbody id="detail">
+                                        @php
+                                            $total = 0;
+                                        @endphp
                                         @foreach ($pesanan->details as $key => $item)
                                         <tr>
                                             <td width="2%">
@@ -103,6 +106,9 @@
                                             <td width="15%"><input type="number" name="jumlah_warna[]" class="form-control jml_warna" id="jml_warna_{{ $key }}" data-key="{{ $key }}" value="{{ $item->jumlah_warna }}" required></td>
                                             <td width="15%"><input type="text" name="total[]" class="form-control total" id="total_{{ $key }}" value="{{ (($item->jumlah_warna * 10000) + $item->harga_barang) * $item->jumlah_pesanan }}" data-key="{{ $key }}" required readonly></td>
                                         </tr>
+                                        @php
+                                            $total += (($item->jumlah_warna * 10000) + $item->harga_barang) * $item->jumlah_pesanan;
+                                        @endphp
                                         @endforeach
                                     </tbody>
                                     <tfoot>
@@ -114,16 +120,22 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Total Harga</label>
-                                        <input type="number" name="total_harga" id="total_harga" readonly class="form-control" value="{{ $pesanan->total_harga }}" required>
+                                        <label>Sub Total</label>
+                                        <input type="number" name="sub_total" id="sub_total" value="{{ $total }}" class="form-control" required readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Diskon (%)</label>
                                         <input type="number" id="disc" name="disc" class="form-control" value="{{ $pesanan->disc }}"  min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total Harga</label>
+                                        <input type="number" name="total_harga" id="total_harga" readonly class="form-control" value="{{ $pesanan->total_harga }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +149,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Sisa Pembayaran</label>
-                                        <input type="text" id="sisa_pembayaran" name="sisa_pembayaran" class="form-control" value="{{ $pesanan->total_harga - ($pesanan->total_harga * ($pesanan->disc/100)) - $pesanan->uang_muka }}" readonly required>
+                                        <input type="text" id="sisa_pembayaran" name="sisa_pembayaran" class="form-control" value="{{ $pesanan->total_harga - $pesanan->uang_muka }}" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -166,10 +178,12 @@ $(document).ready(function(){
 });
 
 $('#uang_muka, #disc').on('keyup', function(){
+    total_harga();
     sisa_pembayaran();
 });
 
 $('#uang_muka, #disc').on('change', function(){
+    total_harga();
     sisa_pembayaran();
 });
 
@@ -198,6 +212,7 @@ $('#add').on('click', function(){
     $('.delDetail').click(function(){
         var toprow = $(this).closest("tr");
         toprow.remove(); 
+        sub_total();
         total_harga();
         sisa_pembayaran();
     });
@@ -215,6 +230,7 @@ $(document).on('keyup', '.barang, .jml_pesanan, .jml_warna', function(){
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
@@ -230,22 +246,31 @@ $(document).on('change', '.barang, .jml_pesanan, .jml_warna', function(){
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
 $('.delDetail').click(function(){
     var toprow = $(this).closest("tr");
     toprow.remove(); 
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
 
-function total_harga(){
+function sub_total(){
     let total = 0;
     $(".total").each(function() {
         total += parseInt($(this).val());
     });
-    $('#total_harga').val(total);
+    $('#sub_total').val(total);
+}
+
+function total_harga(){
+    let total = $('#sub_total').val();
+    let disc = $('#disc').val();
+    let hasil = parseInt(disc) > 0 ? parseInt(total) - parseInt(total * (parseInt(disc) / 100)) : parseInt(total);
+    $('#total_harga').val(hasil);
 }
 
 function sisa_pembayaran(){

@@ -91,16 +91,22 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Total Harga</label>
-                                        <input type="number" name="total_harga" id="total_harga" value="0"  readonly class="form-control" required>
+                                        <label>Sub Total</label>
+                                        <input type="number" name="sub_total" id="sub_total" value="0" class="form-control" required readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Diskon (%)</label>
                                         <input type="number" id="disc" name="disc" class="form-control" value="0"  min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total Harga</label>
+                                        <input type="number" name="total_harga" id="total_harga" value="0" class="form-control" required readonly>
                                     </div>
                                 </div>
                             </div>
@@ -143,10 +149,12 @@ $(document).ready(function(){
 });
 
 $('#uang_muka, #disc').on('keyup', function(){
+    total_harga();
     sisa_pembayaran();
 });
 
 $('#uang_muka, #disc').on('change', function(){
+    total_harga();
     sisa_pembayaran();
 });
 
@@ -175,6 +183,7 @@ $('#add').on('click', function(){
     $('.delDetail').click(function(){
         var toprow = $(this).closest("tr");
         toprow.remove(); 
+        sub_total();
         total_harga();
         sisa_pembayaran();
     });
@@ -189,6 +198,7 @@ $(document).on('keyup', '.barang, .jml_pesanan, .jml_warna', function(){
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
@@ -202,6 +212,7 @@ $(document).on('change', '.barang, .jml_pesanan, .jml_warna', function(){
     var total = (harga + (warna * 10000)) * jumlah;
 
     $('#total_'+key).val(total);
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
@@ -209,24 +220,31 @@ $(document).on('change', '.barang, .jml_pesanan, .jml_warna', function(){
 $('.delDetail').click(function(){
     var toprow = $(this).closest("tr");
     toprow.remove(); 
+    sub_total();
     total_harga();
     sisa_pembayaran();
 });
 
-function total_harga(){
+function sub_total(){
     let total = 0;
     $(".total").each(function() {
         total += parseInt($(this).val());
     });
-    $('#total_harga').val(total);
+    $('#sub_total').val(total);
+}
+
+function total_harga(){
+    let total = $('#sub_total').val();
+    let disc = $('#disc').val();
+    let hasil = parseInt(disc) > 0 ? parseInt(total) - parseInt(total * (parseInt(disc) / 100)) : parseInt(total);
+    $('#total_harga').val(hasil);
 }
 
 function sisa_pembayaran(){
-    let disc = $('#disc').val();;
     let uang_muka = $('#uang_muka').val();
     let total_harga = $('#total_harga').val();
 
-    let hasil = parseInt(total_harga) - parseInt(total_harga * (parseInt(disc) / 100)) - parseInt(uang_muka);
+    let hasil = parseInt(total_harga) - parseInt(uang_muka);
     $('#sisa_pembayaran').val((isNaN(hasil) ? 0 : hasil));
 }
 
