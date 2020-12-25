@@ -35,8 +35,8 @@ class AruskasController extends Controller
             'no_bukti' => $request->kode,
             'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
             'keterangan' => $request->keterangan,
-            'debet' => ($request->status == 1) ? $request->nominal : 0,
-            'kredit' => ($request->status == 2) ? $request->nominal : 0,
+            'debet' => $request->nominal,
+            'kredit' => $request->nominal,
             'user_id' => auth()->user()->id
         ]);
 
@@ -75,8 +75,8 @@ class AruskasController extends Controller
         DB::table('jurnal')->where('id','=',$aruskas->jurnal_id)->update([
             'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
             'keterangan' => $request->keterangan,
-            'debet' => ($request->status == 1) ? $request->nominal : 0,
-            'kredit' => ($request->status == 2) ? $request->nominal : 0
+            'debet' => $request->nominal,
+            'kredit' => $request->nominal
         ]);
 
         DB::table('aruskas')->where('id', '=', $id)->update([

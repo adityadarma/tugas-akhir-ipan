@@ -48,8 +48,8 @@
             </tr>
             @foreach ($pesanan->details as $item)
             <tr>
-                <td>{{ $item->barang->kode_barang }}</td>
-                <td>{{ $item->barang->nama_barang }}</td>
+                <td>{{ $item->barang->kode }}</td>
+                <td>{{ $item->barang->nama }}</td>
                 <td style='text-align:right'>Rp. {{ number_format($item->harga_barang + ($item->jumlah_warna * 10000), 0,',','.') }}</td>
                 <td style='text-align:right'>{{ $item->jumlah_pesanan }}</td>
                 <td style='text-align:right'>Rp. {{ number_format(($item->harga_barang + ($item->jumlah_warna * 10000)) * $item->jumlah_pesanan, 0,',','.') }}</td>

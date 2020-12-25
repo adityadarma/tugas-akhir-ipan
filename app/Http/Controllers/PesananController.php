@@ -237,13 +237,9 @@ class PesananController extends Controller
     public function histori($id)
     {
         $data['pelanggan'] = DB::table('pelanggan')->find($id);
-        $data['pesanan'] = DB::table('pesanan')
-                            ->join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
-                            ->join('barang', 'barang.id', '=', 'pesanan.barang_id')
+        $data['pesanan'] = Pesanan::join('pelanggan', 'pelanggan.id', '=', 'pesanan.pelanggan_id')
                             ->where ('pelanggan.id',$id)
                             ->select([
-                                'barang.nama as nama_barang',
-                                'barang.harga_jual as harga_barang',
                                 'pesanan.*'
                             ])
                             ->get();

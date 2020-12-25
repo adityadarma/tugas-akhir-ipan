@@ -32,13 +32,12 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Pesanan</th>
-                                <th>Nama Barang</th>
                                 <th>Tanggal Pesanan</th>
                                 <th>Tanggal Jadi</th>
                                 <th>Jumlah Pesanan</th>
-                                <th>Jumlah Warna</th>
                                 <th>Total Harga</th>
                                 <th>Uang Muka</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,13 +45,12 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->kode }}</td>
-                                <td>{{ $item->nama_barang }}</td>
                                 <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan)) }}</td>
                                 <td>{{ date('d-m-Y', strtotime($item->tgl_jadi)) }}</td>
-                                <td>{{ $item->jumlah_pesanan }} pcs</td>
-                                <td>{{ $item->jumlah_warna }} pcs</td>
+                                <td>{{ $item->details->sum('jumlah_pesanan') }} pcs</td>
                                 <td>Rp. {{ number_format($item->total_harga, 0,',','.') }}</td>
                                 <td>Rp. {{ number_format($item->uang_muka, 0,',','.') }}</td>
+                                <td><a href="{{ route('pesanan.cetak',['id' => $item->id]) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>
