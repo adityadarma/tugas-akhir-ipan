@@ -65,7 +65,7 @@
                         <td>{{ $item->nama_pelanggan }}</td>
                         <td>{{ date('d-m-Y', strtotime($item->tgl_pesanan )) }}</td>
                         <td>{{ Carbon::parse($item->tgl_jadi)->addDays(3)->format('d-m-Y') }}</td>
-                        <td>{{ $item->jumlah_pesanan }}</td>
+                        <td>{{ $item->details->sum('jumlah_pesanan') }}</td>
                         <td>Rp. {{ number_format ($item->total_harga, 0,',','.') }}</td>
                         <td>Rp. {{ number_format ($item->uang_muka, 0,',','.') }}</td>
                         <td>{{ ($item->tgl_pelunasan) ? date('d-m-Y', strtotime($item->tgl_pelunasan)) : '-' }}</td>
