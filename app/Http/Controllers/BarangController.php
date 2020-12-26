@@ -91,7 +91,7 @@ class BarangController extends Controller
     {
         $kode = DB::table('barang')->max('kode');
         $kodeP = $kode;
-        $urutan = (int) substr($kodeP, 3, 3);
+        $urutan = (int) substr($kodeP, 1, 3);
         $urutan++;
         $huruf = "B";
         return $huruf . sprintf("%03s", $urutan);

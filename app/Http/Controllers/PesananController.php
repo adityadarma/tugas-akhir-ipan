@@ -251,7 +251,7 @@ class PesananController extends Controller
     {
         $kode = DB::table('pesanan')->max('kode');
         $kodeP = $kode;
-        $urutan = (int) substr($kodeP, 3, 3);
+        $urutan = (int) substr($kodeP, 2, 3);
         $urutan++;
         $huruf = "OD";
         return $huruf . sprintf("%03s", $urutan);

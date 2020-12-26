@@ -108,7 +108,7 @@ class AruskasController extends Controller
     private function _kodeArusKas()
     {
         $kode = DB::table('aruskas')->max('kode');
-        $urutan = (int) substr($kode, 3, 3);
+        $urutan = (int) substr($kode, 2, 3);
         $urutan++;
         $huruf = "AK";
         return $huruf . sprintf("%03s", $urutan);

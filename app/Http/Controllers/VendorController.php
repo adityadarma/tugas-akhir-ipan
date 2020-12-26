@@ -77,7 +77,7 @@ class VendorController extends Controller
     private function _kodeVendor()
     {
         $kode = DB::table('vendor')->max('kode');
-        $urutan = (int) substr($kode, 3, 3);
+        $urutan = (int) substr($kode, 1, 3);
         $urutan++;
         $huruf = "V";
         return $huruf . sprintf("%03s", $urutan);

@@ -108,7 +108,7 @@ class PelunasanController extends Controller
     private function _kodePelunasan()
     {
         $kode = DB::table('pelunasan')->max('kode');
-        $urutan = (int) substr($kode, 3, 3);
+        $urutan = (int) substr($kode, 2, 3);
         $urutan++;
         $huruf = "PL";
         return $huruf . sprintf("%03s", $urutan);
